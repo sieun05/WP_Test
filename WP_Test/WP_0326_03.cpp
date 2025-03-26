@@ -52,32 +52,25 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmd
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 {
-	srand((unsigned int)time(NULL));
+    srand((unsigned int)time(NULL));
 
     PAINTSTRUCT ps;
     HDC hdc;
 
-    static int x{rand()%600}, y{rand()%500};
-    int r{ rand() % 255}, g{ rand() % 255 }, b{ rand() % 255 };
-	static TCHAR prt_txt[80]{}; //문자열을 저장할 배열
-	static int count = 0;
+    int x{ rand()%600}, y{rand()%400};
+    int r{ rand() % 255 }, g{ rand() % 255 }, b{ rand() % 255 };
+    TCHAR prt_txt[256]{}; //문자열을 저장할 배열
+    int count = rand()%15+5;
+    int n = rand() % 200;
 
     switch (iMsg) {
     case WM_CHAR:
-		if (wParam == VK_BACK) {
-			if (count > 0) {
-				count--;
-                prt_txt[count] = '\0';
-			}
+        if (wParam == VK_RETURN) {
+            InvalidateRect(hWnd, NULL, TRUE);
         }
-        else if (wParam==VK_RETURN) {
-            y += 20;
+        else if(wParam=='q') {
+			PostQuitMessage(0);
         }
-		else {
-            prt_txt[count++] = wParam;
-            prt_txt[count] = '\0';
-		}
-		InvalidateRect(hWnd, NULL, TRUE);
         break;
     case WM_KEYDOWN:
 
@@ -85,9 +78,19 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
     case WM_PAINT:
         hdc = BeginPaint(hWnd, &ps);
 
-		SetTextColor(hdc, RGB(r, g, b));
-		TextOut(hdc, x, y, prt_txt, lstrlen(prt_txt));
-        
+        TCHAR temp[10];
+        wsprintf(temp, TEXT("%d"), n);
+
+        for (int i{}; i < count; i++) {    
+            lstrcpyn(prt_txt + lstrlen(prt_txt), temp, sizeof(prt_txt));
+        }
+
+        SetTextColor(hdc, RGB(rand() % 255, rand() % 255, rand() % 255));
+        SetBkColor(hdc, RGB(rand() % 255, rand() % 255, rand() % 255));
+        for (int i{}; i < count; i++) {
+			TextOut(hdc, x, y + i * 20, prt_txt, lstrlen(prt_txt));
+        }
+
         EndPaint(hWnd, &ps);
         return 0;
     case WM_DESTROY:
