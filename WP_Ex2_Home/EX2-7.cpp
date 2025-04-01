@@ -82,6 +82,21 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
             }
         }
         break;
+        case VK_BACK:
+        {
+            if (caret_x > 0) {
+                for (int i{ caret_x }; i < lstrlen(memo_txt[caret_y]) - 1; i++) {
+                    memo_txt[caret_y][i] = memo_txt[caret_y][i + 1];
+                }
+                memo_txt[caret_y][lstrlen(memo_txt[caret_y]) - 1] = '\0';
+                caret_x--;
+            }
+            else if (caret_y > 0) {
+                caret_y--;
+                caret_x = lstrlen(memo_txt[caret_y]);
+            }
+        }
+        break;
         case VK_ESCAPE:
         {
             for (int i{}; i < 10; i++) {
@@ -169,21 +184,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
             break;
 
         }
-        case VK_BACK:
-        {
-            if (caret_x > 0) {
-                for (int i{ caret_x }; i < lstrlen(memo_txt[caret_y]) - 1; i++) {
-                    memo_txt[caret_y][i] = memo_txt[caret_y][i + 1];
-                }
-                memo_txt[caret_y][lstrlen(memo_txt[caret_y]) - 1] = '\0';
-                caret_x--;
-            }
-            else if (caret_y > 0) {
-                caret_y--;
-                caret_x = lstrlen(memo_txt[caret_y]);
-            }
-        }
-        break;
+        
         case VK_F1:
             f1_flag = f1_flag ? 0 : 1;
             break;
