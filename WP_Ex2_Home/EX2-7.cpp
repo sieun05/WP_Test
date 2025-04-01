@@ -49,23 +49,26 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmd
     return (int)Msg_frm.wParam;
 }
 
+//void Txt_right_left;
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 {
     PAINTSTRUCT ps;
     HDC hdc;
 
-    static TCHAR memo_txt[10][80]{};
+    static TCHAR memo_txt[10][30]{};
     static int caret_x{}, caret_y{};
     
     static int f1_flag{};
     static int insert_flag{};
+    static int insert_flag_2{};
 
     static TCHAR prt_txt[100]{};
 
     switch (iMsg) {
     case WM_CREATE:
         CreateCaret(hWnd, NULL, 5, 15);
+        SetCaretBlinkTime(500);
         ShowCaret(hWnd);
         
         break;
@@ -109,8 +112,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
         }
         case VK_TAB:
         {
-            for (int i{}; i < 4; i++) {
-                if (lstrlen(memo_txt[caret_y]) < 80 - 1) {
+            for (int i{}; i < 5; i++) {
+                if (lstrlen(memo_txt[caret_y]) < 30 - 1) {
                     for (int j{ lstrlen(memo_txt[caret_y]) }; j > caret_x; j--) {
                         memo_txt[caret_y][j] = memo_txt[caret_y][j - 1];
                     }
@@ -121,20 +124,36 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
             break;
         }
         default:
-            if (lstrlen(memo_txt[caret_y]) < 80 - 1) {
-                if(insert_flag){
-                    for (int i{ lstrlen(memo_txt[caret_y]) }; i > caret_x; i--) {
-                        memo_txt[caret_y][i] = memo_txt[caret_y][i - 1];
-                    }
+            if (lstrlen(memo_txt[caret_y]) >= 30 - 1) {
+                if (caret_x < lstrlen(memo_txt[caret_y])) {
+                    insert_flag_2 = 1;
                 }
-                if(f1_flag){
-                    memo_txt[caret_y][caret_x++] = toupper(wParam);
+                else if (caret_y > 8) {
+                    caret_x = 0;
+                    caret_y = 0;
+                    insert_flag_2 = 1;
                 }
                 else {
-                    memo_txt[caret_y][caret_x++] = wParam;
+                    caret_y++;
+                    caret_x = 0;
+                    insert_flag_2 = 0;
                 }
             }
+
             memo_txt[caret_y][lstrlen(memo_txt[caret_y])] = '\0';
+            if(not insert_flag and not insert_flag_2){
+                for (int i{ lstrlen(memo_txt[caret_y])}; i > caret_x; i--) {
+                    memo_txt[caret_y][i] = memo_txt[caret_y][i - 1];
+                }
+                memset(memo_txt[caret_y] + lstrlen(memo_txt[caret_y]), 0, 30 - lstrlen(memo_txt[caret_y]));
+            }
+            if(f1_flag){
+                memo_txt[caret_y][caret_x++] = toupper(wParam);
+            }
+            else {
+                memo_txt[caret_y][caret_x++] = wParam;
+            }
+               
         }
         InvalidateRect(hWnd, NULL, TRUE);
         break;
@@ -154,7 +173,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
         }
         case VK_RIGHT:
         {
-            if (caret_x < 80 and caret_x < lstrlen(memo_txt[caret_y])) {
+            if (caret_x < sizeof(memo_txt[caret_y]) and caret_x < lstrlen(memo_txt[caret_y])) {
                 caret_x++;
             }
             else if (caret_y < 9) {
@@ -184,11 +203,15 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
             break;
 
         }
+<<<<<<< HEAD
         
+=======
+>>>>>>> b867915dc7396f2b4b3af742b12b0e29d5297b6e
         case VK_F1:
             f1_flag = f1_flag ? 0 : 1;
             break;
         case VK_F2:
+
             break;
         case VK_F3:
             break;
@@ -213,13 +236,18 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
             // 2. 단어 삭제 (shift left)
             for (int i = word_end; i <= len; i++) {
                 memo_txt[caret_y][i - word_length] = memo_txt[caret_y][i];
+                memo_txt[caret_y][lstrlen(memo_txt[caret_y])] = '\0';
             }
 
             // 3. 캐럿 위치 조정
-            if (word_start > 0)
+            if (word_start > 0) {
                 caret_x = word_start - 1; // 공백 뒤 (전 단어 끝)
-            else
-                caret_x = lstrlen(memo_txt[caret_y]); // 줄 맨 뒤
+                //memset(memo_txt[caret_y] + lstrlen(memo_txt[caret_y]), 0, 30 - lstrlen(memo_txt[caret_y]));
+            }
+            else{
+                caret_x = 0; // 줄 맨 뒤
+                memset(memo_txt[caret_y], 0, 30);
+            }
 
             /*int word_start{}, word_end{};
             for (int i{ caret_x }; i >= 0; i--) {
@@ -251,7 +279,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
         }
         case VK_END:
         {
-            if (lstrlen(memo_txt[caret_y]) < 80 - 1) {
+            if (lstrlen(memo_txt[caret_y]) < 30 - 1) {
                 caret_x = lstrlen(memo_txt[caret_y]);
             }
             else {
@@ -262,10 +290,31 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
         break;
         case VK_INSERT:
         {
-
             insert_flag = insert_flag ? 0 : 1;
             break;
         }
+        case VK_PRIOR:
+            if (caret_y - 3 > 0) {
+                caret_y -= 3;
+            }
+            else {
+                caret_y = 0;
+            }
+            if (caret_x > lstrlen(memo_txt[caret_y])) {
+                caret_x = lstrlen(memo_txt[caret_y]);
+            }
+            break;
+        case VK_NEXT:
+            if (caret_y + 3 < 9) {
+                caret_y += 3;
+            }
+            else {
+                caret_y = 9;
+            }
+            if (caret_x > lstrlen(memo_txt[caret_y])) {
+                caret_x = lstrlen(memo_txt[caret_y]);
+            }
+            break;
         }
         InvalidateRect(hWnd, NULL, TRUE);
         break;
@@ -275,15 +324,16 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
         SIZE size;
         GetTextExtentPoint32(hdc, memo_txt[caret_y], caret_x, &size);
         for (int i{}; i < 10; i++) {
-            TextOut(hdc, 0, 0 + 25*i, memo_txt[i], lstrlen(memo_txt[i]));
+            TextOut(hdc, 10, 10 + 25*i, memo_txt[i], lstrlen(memo_txt[i]));
         }
-        SetCaretPos(0 + size.cx, 0 + 25 * caret_y);
+        SetCaretPos(10 + size.cx, 10 + 25 * caret_y);
 
         TextOut(hdc, 0, 400, prt_txt, lstrlen(prt_txt));
 
         EndPaint(hWnd, &ps);
         return 0;
     case WM_DESTROY:
+        DestroyCaret();
         PostQuitMessage(0);
         return 0;
     }
