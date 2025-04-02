@@ -203,10 +203,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
             break;
 
         }
-<<<<<<< HEAD
-        
-=======
->>>>>>> b867915dc7396f2b4b3af742b12b0e29d5297b6e
         case VK_F1:
             f1_flag = f1_flag ? 0 : 1;
             break;

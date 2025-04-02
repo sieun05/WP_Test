@@ -61,6 +61,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
     HPEN hPen;
     HPEN old_pen;
 
+    static int sel_obj{};
+
     switch (iMsg) {
     case WM_CREATE:
        
@@ -69,89 +71,151 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
     case WM_CHAR:
     {
         switch (wParam) {
-
+        case 'l':
+            sel_obj = 1;
+            break;
+        case 't':
+            sel_obj = 2;
+            break;
+        case 'r':
+            sel_obj = 3;
+            break;
+        case 'q':
+            PostQuitMessage(0);
+            break;
         }
         InvalidateRect(hWnd, NULL, TRUE);
         break;
     }
-    case WM_KEYDOWN:
-        switch (wParam) {
-        
-        }
-        InvalidateRect(hWnd, NULL, TRUE);
-        break;
     case WM_PAINT:
     {
         hdc = BeginPaint(hWnd, &ps);
 
-        RECT rect{ 225, 175, 375, 325 }; //200 -25
+        RECT client_rect;
+        GetClientRect(hWnd, &client_rect);
 
-        hPen = CreatePen(PS_SOLID, 3, RGB(0,0,0));
-        old_pen = (HPEN)SelectObject(hdc, hPen);
-        
-        FillRect(hdc, &rect, CreateSolidBrush(RGB(220, 220, 220)));
+        RECT rect{ client_rect.right / 2. -150 , client_rect.bottom / 2.-150,  client_rect.right / 2. +150,  client_rect.bottom / 2. +150 }; //200 -25        
+        RECT rect_2;
+
+        FillRect(hdc, &rect, (HBRUSH)GetStockObject(WHITE_BRUSH) /*CreateSolidBrush(RGB(220, 220, 220))*/);
         FrameRect(hdc, &rect, (HBRUSH)GetStockObject(BLACK_BRUSH)); //중간
-        RECT rect_2{ rect };
-        //InflateRect(&rect_2, -6, -6);
 
-        OffsetRect(&rect, 0, 160);
-        //FillRect(hdc, &rect, CreateSolidBrush(RGB(220, 220, 220)));
-        //FrameRect(hdc, &rect, (HBRUSH)GetStockObject(BLACK_BRUSH)); //아래
+        switch(sel_obj){
+        case 1:
+        {
+            rect_2 = rect;
+            OffsetRect(&rect_2, -145, -145);
+            InflateRect(&rect_2, -145, -145);
 
-        hBrush = CreateSolidBrush(RGB(0, 255, 0));
-        old_brush = (HBRUSH)SelectObject(hdc, hBrush);
+            hPen = CreatePen(PS_SOLID, 3, RGB(0, 0, 255));
+            old_pen = (HPEN)SelectObject(hdc, hPen);
 
-        rect_2 = rect;
-        InflateRect(&rect_2, -10, -10);
-        Pie(hdc, rect_2.left, rect_2.top, rect_2.right, rect_2.bottom, (rect_2.left + rect_2.right) / 2., rect_2.top, rect_2.right, (rect_2.top + rect_2.bottom) / 2.);
+            while (rect.bottom > rect_2.bottom) {
+                POINT point_t[4]{ {rect_2.left, rect_2.top}, {rect_2.left, rect_2.bottom} };
+                Polygon(hdc, point_t, 2);
+                OffsetRect(&rect_2, 0, 15);
+            }
 
-        SelectObject(hdc, old_brush);
+            OffsetRect(&rect_2, 300, -300);
+            while (rect.bottom > rect_2.bottom) {
+                POINT point_t[4]{ {rect_2.left, rect_2.top}, {rect_2.left, rect_2.bottom} };
+                Polygon(hdc, point_t, 2);
+                OffsetRect(&rect_2, 0, 15);
+            }
 
-        OffsetRect(&rect, 0, -320);
-        //FillRect(hdc, &rect, CreateSolidBrush(RGB(220, 220, 220)));
-        //FrameRect(hdc, &rect, (HBRUSH)GetStockObject(BLACK_BRUSH)); //위
+            OffsetRect(&rect_2, -300, -300);
+            while (rect.right > rect_2.right) {
+                POINT point_t[4]{ {rect_2.left, rect_2.top}, {rect_2.right, rect_2.top} };
+                Polygon(hdc, point_t, 2);
+                OffsetRect(&rect_2, 15, 0);
+            }
 
-        hBrush = CreateSolidBrush(RGB(255, 0, 0));
-        old_brush = (HBRUSH)SelectObject(hdc, hBrush);
+            OffsetRect(&rect_2, -300, +300);
+            while (rect.right > rect_2.right) {
+                POINT point_t[4]{ {rect_2.left, rect_2.top}, {rect_2.right, rect_2.top} };
+                Polygon(hdc, point_t, 2);
+                OffsetRect(&rect_2, 15, 0);
+            }
 
-        rect_2 = rect;
-        InflateRect(&rect_2, -10, -10);
-        POINT point_tt[8]{ {rect_2.left, rect_2.top}, {rect_2.right, rect_2.top}, {rect_2.left, rect_2.bottom}, {rect_2.right, rect_2.bottom} };
-        Polygon(hdc, point_tt, 4);
+            DeleteObject(hPen);
+        }
+            break;
+        case 2:
+        {
+            rect_2 = rect;
+            OffsetRect(&rect_2, -145 - 5, -145);
+            InflateRect(&rect_2, -145, -145);
 
-        SelectObject(hdc, old_brush);
+            hBrush = CreateSolidBrush(RGB(255, 0, 0));
+            old_brush = (HBRUSH)SelectObject(hdc, hBrush);
 
-        OffsetRect(&rect, 160, 160);
-        //FillRect(hdc, &rect, CreateSolidBrush(RGB(220, 220, 220)));
-        //FrameRect(hdc, &rect, (HBRUSH)GetStockObject(BLACK_BRUSH)); //오른쪽
+            while (rect.bottom > rect_2.bottom) {
+                POINT point_t[6]{ {(rect_2.left + rect_2.right) / 2., rect_2.top} , {rect_2.left, rect_2.bottom}, {rect_2.right, rect_2.bottom} };
+                Polygon(hdc, point_t, 3);
+                OffsetRect(&rect_2, 0, 15);
+            }
 
-        hBrush = CreateSolidBrush(RGB(255, 255, 0));
-        old_brush = (HBRUSH)SelectObject(hdc, hBrush);
+            OffsetRect(&rect_2, 300, -300);
+            while (rect.bottom > rect_2.bottom) {
+                POINT point_t[6]{ {(rect_2.left + rect_2.right) / 2., rect_2.top} , {rect_2.left, rect_2.bottom}, {rect_2.right, rect_2.bottom} };
+                Polygon(hdc, point_t, 3);
+                OffsetRect(&rect_2, 0, 15);
+            }
 
-        rect_2 = rect;
-        InflateRect(&rect_2, -10, -10);
-        POINT point_p[10]{ {(rect_2.left + rect_2.right) / 2., rect_2.top}, {rect_2.right ,(rect_2.top + rect_2.bottom) / 2. -10}, {rect_2.right - 30, rect_2.bottom}, {rect_2.left + 30, rect_2.bottom}, {rect_2.left ,(rect_2.top + rect_2.bottom) / 2. - 10} };
-        Polygon(hdc, point_p, 5);
-        
-        SelectObject(hdc, old_brush);
+            OffsetRect(&rect_2, -300 + 15, -300 - 5);
+            while (rect.right - 5 > rect_2.right) {
+                POINT point_t[6]{ {(rect_2.left + rect_2.right) / 2., rect_2.top} , {rect_2.left, rect_2.bottom}, {rect_2.right, rect_2.bottom} };
+                Polygon(hdc, point_t, 3);
+                OffsetRect(&rect_2, 15, 0);
+            }
 
-        OffsetRect(&rect, -320, 0);
-        //FillRect(hdc, &rect, CreateSolidBrush(RGB(220, 220, 220)));
-        //FrameRect(hdc, &rect, (HBRUSH)GetStockObject(BLACK_BRUSH)); //왼쪽
+            OffsetRect(&rect_2, -300 + 15, +300);
+            while (rect.right - 5 > rect_2.right) {
+                POINT point_t[6]{ {(rect_2.left + rect_2.right) / 2., rect_2.top} , {rect_2.left, rect_2.bottom}, {rect_2.right, rect_2.bottom} };
+                Polygon(hdc, point_t, 3);
+                OffsetRect(&rect_2, 15, 0);
 
-        hBrush = CreateSolidBrush(RGB(15, 15, 255));
-        old_brush = (HBRUSH)SelectObject(hdc, hBrush);
+                DeleteObject(hBrush);
+            }
+        }
+            break;
+        case 3:
+        {
+            rect_2 = rect;
+            OffsetRect(&rect_2, -145 - 5, -145);
+            InflateRect(&rect_2, -145, -145);
 
-        rect_2 = rect;
-        InflateRect(&rect_2, -10, -10);
-        POINT point_t[6]{ {(rect_2.left + rect_2.right) / 2., rect_2.top} , {rect_2.left, rect_2.bottom}, {rect_2.right, rect_2.bottom} };
-        Polygon(hdc, point_t, 3);
+            hBrush = CreateSolidBrush(RGB(0, 255, 0));
+            old_brush = (HBRUSH)SelectObject(hdc, hBrush);
 
-        SelectObject(hdc, old_brush);
-        SelectObject(hdc, old_pen);
+            while (rect.bottom > rect_2.bottom) {
+                FillRect(hdc, &rect_2, hBrush);
+                OffsetRect(&rect_2, 0, 15);
+            }
 
-        DeleteObject(hBrush);
-        DeleteObject(hPen);
+            OffsetRect(&rect_2, 300, -300);
+            while (rect.bottom > rect_2.bottom) {
+                FillRect(hdc, &rect_2, hBrush);
+                OffsetRect(&rect_2, 0, 15);
+            }
+
+            OffsetRect(&rect_2, -300 + 15, -300 - 5);
+            while (rect.right - 5 > rect_2.right) {
+                FillRect(hdc, &rect_2, hBrush);
+                OffsetRect(&rect_2, 15, 0);
+            }
+
+            OffsetRect(&rect_2, -300 + 15, +300);
+            while (rect.right - 5 > rect_2.right) {
+                FillRect(hdc, &rect_2, hBrush);
+                OffsetRect(&rect_2, 15, 0);
+
+                DeleteObject(hBrush);
+            }
+        }
+        break;
+        }
+
         EndPaint(hWnd, &ps);
         break;
     }
