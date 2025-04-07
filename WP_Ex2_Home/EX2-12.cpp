@@ -72,50 +72,145 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
     switch (iMsg) {
     case WM_CREATE:
     {
+        for (int i{}; i < 20; i++) {
+            int r_x{ rand() % 39 }, r_y{ rand() % 39 };
+            if (board[r_y][r_x] == 0) {
+                board[r_y][r_x] = 3;
+                continue;
+            }
+            i--;
+        }
+
+        for (int i{}; i < 15; i++) {
+            int r_x{ rand() % 39 }, r_y{ rand() % 39 };
+            int r_color{ rand() % 3 + 4};
+            if (board[r_y][r_x] == 0) {
+                board[r_y][r_x] = r_color;
+                continue;
+            }
+            i--;
+        }
+
+        for (int i{}; i < 10; i++) {
+            int r_x{ rand() % 39 }, r_y{ rand() % 39 };
+            int r_shape{ 7 };
+            if (board[r_y][r_x] == 0) {
+                board[r_y][r_x] = r_shape;
+                continue;
+            }
+            i--;
+        }
+
+        for (int i{}; i < 10; i++) {
+            int r_x{ rand() % 39 }, r_y{ rand() % 39 };
+            int r_size{ rand()%2 + 8};
+            if (board[r_y][r_x] == 0) {
+                board[r_y][r_x] = r_size;
+                continue;
+            }
+            i--;
+        }
     }
         break;
     case WM_CHAR:
     {
         switch (wParam) {
-        case 't':
-
+        case 'a':
+            if (order==0 and player[0].x > 0 and board[player[0].y][player[0].x-1]!=3) {
+                player[0].x--;
+                order = 1;
+            }
+            break;
+        case 'd':
+            if (order == 0 and player[0].x < COLUMN - 1 and board[player[0].y][player[0].x + 1] != 3) {
+                player[0].x++;
+                order = 1;
+            }
+            break;
+        case 'w':
+            if (order == 0 and player[0].y > 0 and board[player[0].y-1][player[0].x] != 3) {
+                player[0].y--;
+                order = 1;
+            }
+            break;
+        case 's':
+            if (order == 0 and player[0].y < ROW - 1 and board[player[0].y+1][player[0].x] != 3) {
+                player[0].y++;
+                order = 1;
+            }
             break;
         case 'q':
         case 'Q':
             PostQuitMessage(0);
+            break;
         }
+
+        switch (board[player[0].y][player[0].x]) {
+        case 4:
+            player[0].r = 60, player[0].g = 250, player[0].b = 250;
+            break;
+        case 5:
+            player[0].r = 200, player[0].g = 0, player[0].b = 200;
+            break;
+        case 6:
+            player[0].r = 20, player[0].g = 200, player[0].b = 200;
+            break;
+        case 7:
+        {
+            int r_shape{ rand() % 4 };
+            player[0].shape = r_shape;
+
+            break;
+        }
+        case 8:
+        {
+            if (player[0].size > -5) {
+                player[0].size--;
+            }
+            break;
+        }
+        case 9:
+        {
+            if (player[0].size < 0) {
+                player[0].size++;
+            }
+            break;
+        }
+        }
+
         InvalidateRect(hWnd, NULL, TRUE);
         break;
     }
     case WM_KEYDOWN:
-        switch (wParam) {
 
+
+        switch (wParam) {
         case VK_LEFT:
-			if (player[order].getPoint().x > 0) //왼쪽으로 이동
-				player[order].setPoint(player[order].getPoint().x - 1, player[order].getPoint().y); //플레이어의 좌표를 변경
-			else
-				player[order].setPoint(0, player[order].getPoint().y); //플레이어의 좌표를 변경
+            if (order == 1 and player[1].x > 0 and board[player[1].y][player[1].x - 1] != 3) {
+                player[1].x--;
+                order = 0;
+            }
+			
             break;
         case VK_RIGHT:
-			if (player[order].getPoint().x < COLUMN - 1) //오른쪽으로 이동
-				player[order].setPoint(player[order].getPoint().x + 1, player[order].getPoint().y); //플레이어의 좌표를 변경
-			else
-				player[order].setPoint(COLUMN - 1, player[order].getPoint().y); //플레이어의 좌표를 변경
+            if (order == 1 and player[1].x < COLUMN-1 and board[player[1].y][player[1].x + 1] != 3) {
+                player[1].x++;
+                order = 0;
+            }
             break;
         case VK_UP:
-			if (player[order].getPoint().y > 0) //위쪽으로 이동
-				player[order].setPoint(player[order].getPoint().x, player[order].getPoint().y - 1); //플레이어의 좌표를 변경
-			else
-				player[order].setPoint(player[order].getPoint().x, 0); //플레이어의 좌표를 변경
+            if (order == 1 and player[1].y > 0 and board[player[1].y-1][player[1].x] != 3) {
+                player[1].y--;
+                order = 0;
+            }
             break;
         case VK_DOWN:
-			if (player[order].getPoint().y < ROW - 1) //아래쪽으로 이동
-				player[order].setPoint(player[order].getPoint().x, player[order].getPoint().y + 1); //플레이어의 좌표를 변경
-			else
-				player[order].setPoint(player[order].getPoint().x, ROW - 1); //플레이어의 좌표를 변경
+            if (order == 1 and player[1].y < ROW-1 and board[player[1].y+1][player[1].x] != 3) {
+                player[1].y++;
+                order = 0;
+            }
             break;
         }
-        board[player[order].getPoint().x][player[order].getPoint().y] = 1; //플레이어1
         InvalidateRect(hWnd, NULL, TRUE);
         break;
     case WM_PAINT:

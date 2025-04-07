@@ -18,13 +18,65 @@ void GRID_PAINT(HDC& hdc, RECT& full_rect, int board[ROW][COLUMN], Player p[]) {
                 FillRect(hdc, &sell_rect, (HBRUSH)CreateSolidBrush(RGB(255, 0, 0)));
             }
 
-            if (board[j][i] == 1) {
-                InflateRect(&sell_rect, p[0].getSize(), p[0].getSize());
-                Ellipse(hdc, sell_rect.left, sell_rect.top, sell_rect.right, sell_rect.bottom);
+            if (board[j][i] == 4) {
+                FillRect(hdc, &sell_rect, (HBRUSH)CreateSolidBrush(RGB(60, 250, 250)));
             }
 
-            if (board[j][i] == 2) {
-                InflateRect(&sell_rect, p[1].getSize(), p[1].getSize());
+            if (board[j][i] == 5) {
+                FillRect(hdc, &sell_rect, (HBRUSH)CreateSolidBrush(RGB(200, 0, 200)));
+            }
+
+            if (board[j][i] == 6) {
+                FillRect(hdc, &sell_rect, (HBRUSH)CreateSolidBrush(RGB(20, 200, 200)));
+            }
+
+            if (board[j][i] == 7) {
+                InflateRect(&sell_rect, -2, -2);
+                OffsetRect(&sell_rect, -1, -1);
+                POINT point_tt[8]{ {sell_rect.left, sell_rect.top}, {sell_rect.right, sell_rect.top}, {sell_rect.left, sell_rect.bottom}, {sell_rect.right, sell_rect.bottom} };
+                Polygon(hdc, point_tt, 4);
+            }
+
+            if (board[j][i] == 9) {
+                InflateRect(&sell_rect, -2, -2);
+                OffsetRect(&sell_rect, -1, -1);
+                POINT point_tt[6]{ {sell_rect.right - (sell_rect.right - sell_rect.left) / 2., sell_rect.top}, {sell_rect.left, sell_rect.bottom}, {sell_rect.right, sell_rect.bottom}};
+                Polygon(hdc, point_tt, 3);
+            }
+
+            if (board[j][i] == 8) {
+                InflateRect(&sell_rect, -2, -2);
+                OffsetRect(&sell_rect, -1, -1);
+                POINT point_tt[6]{ {sell_rect.right - (sell_rect.right - sell_rect.left) / 2., sell_rect.bottom}, {sell_rect.left, sell_rect.top}, {sell_rect.right, sell_rect.top} };
+                Polygon(hdc, point_tt, 3);
+            }
+
+            if (p[0].x==i and p[0].y==j) {
+                InflateRect(&sell_rect, p[0].size, p[0].size);
+                HBRUSH hBrush, old_brush;
+                hBrush = CreateSolidBrush(RGB(p[0].r, p[0].g, p[0].b));
+                old_brush = (HBRUSH)SelectObject(hdc, hBrush);
+                
+                if (p[0].shape == 0) {
+                    Ellipse(hdc, sell_rect.left, sell_rect.top, sell_rect.right, sell_rect.bottom);
+                }
+                else if (p[0].shape == 1) {
+                    Rectangle(hdc, sell_rect.left, sell_rect.top, sell_rect.right, sell_rect.bottom);
+                }
+                else if (p[0].shape == 2) {
+                    POINT point_p[10]{ {(sell_rect.left + sell_rect.right) / 2., sell_rect.top}, {sell_rect.right ,(sell_rect.top + sell_rect.bottom) / 2. - 1}, {sell_rect.right - 3, sell_rect.bottom}, {sell_rect.left + 3, sell_rect.bottom}, {sell_rect.left ,(sell_rect.top + sell_rect.bottom) / 2. - 1} };
+                    Polygon(hdc, point_p, 5);
+                }
+                else if (p[0].shape == 3) {
+                    Pie(hdc, sell_rect.left, sell_rect.top, sell_rect.right, sell_rect.bottom, (sell_rect.left + sell_rect.right) / 2., sell_rect.top, sell_rect.right, (sell_rect.top + sell_rect.bottom) / 2.);
+                }
+
+                SelectObject(hdc, old_brush);
+                DeleteObject(hBrush);
+            }
+
+            if (p[1].x == i and p[1].y == j) {
+                InflateRect(&sell_rect, p[1].size, p[1].size);
                 Ellipse(hdc, sell_rect.left, sell_rect.top, sell_rect.right, sell_rect.bottom);
             }
         }

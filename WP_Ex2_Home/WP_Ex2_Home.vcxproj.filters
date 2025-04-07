@@ -29,10 +29,10 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="head.h">
+    <ClInclude Include="GRID_PAINT.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="GRID_PAINT.h">
+    <ClInclude Include="head.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

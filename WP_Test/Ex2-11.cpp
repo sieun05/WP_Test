@@ -52,36 +52,58 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmd
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 {
+    srand((unsigned)time(NULL));
+
     PAINTSTRUCT ps;
     HDC hdc;
 
-    HBRUSH hBrush;
-    HBRUSH old_brush;
+    HBRUSH hBrush{};
+    HBRUSH old_brush{};
 
     HPEN hPen;
     HPEN old_pen;
 
     static int sel_obj{};
+    static int r{}, g{}, b{};
+
+    static int key_down{};
+
+    static int rotate{};
 
     switch (iMsg) {
     case WM_CREATE:
-
+        //SetTimer(hWnd, 1, 50, NULL);
 
         break;
+    //case WM_TIMER:
+    //    switch (wParam) {
+    //    case 1:
+    //        if (GetKeyState('c') & 0x8000) {
+    //            key_down = 1;
+    //        }
+    //        else {
+    //            key_down = 0;
+    //        }
+    //    }
+    //    break;
     case WM_CHAR:
     {
         switch (wParam) {
         case 'c':   //원 선택
             sel_obj = 1;
+            r = rand() % 255, g = rand() % 255, b = rand() % 255;
             break;
         case 's': //모래시계 선택
             sel_obj = 2;
+            r = rand() % 255, g = rand() % 255, b = rand() % 255;
             break;
         case 'p':   //오각형 선택
             sel_obj = 3;
+            r = rand() % 255, g = rand() % 255, b = rand() % 255;
             break;
         case 'e':   //파이모양 선택
             sel_obj = 4;
+            r = rand() % 255, g = rand() % 255, b = rand() % 255;
             break;
         case 'q':
         case 'Q':
@@ -91,10 +113,12 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
         break;
     }
     case WM_KEYDOWN:
-        switch (wParam) {
+        switch (wParam) {;
         case VK_LEFT:
+            rotate++;
             break;
         case VK_RIGHT:
+            rotate--;
             break;
         }
         InvalidateRect(hWnd, NULL, TRUE);
@@ -118,22 +142,39 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
         RECT rect_2{ rect };
         InflateRect(&rect_2, -20, -20);
 
+ 
+        hBrush = CreateSolidBrush(RGB(r, g, b));
+        old_brush = (HBRUSH)SelectObject(hdc, hBrush);
+
+
         switch (sel_obj) {
         case 1:
+        {
             Ellipse(hdc, rect_2.left, rect_2.top, rect_2.right, rect_2.bottom);
             break;
+        }
         case 2:
-            POINT point[8]{ {rect_2.left, rect_2.top}, {rect_2.right, rect_2.top}, {rect_2.left, rect_2.bottom}, {rect_2.right, rect_2.bottom} };
-            Polygon(hdc, point_tt, 4);
-            break;
-        case 3:
-            POINT point_p[10]{ {(rect_2.left + rect_2.right) / 2., rect_2.top}, {rect_2.right ,(rect_2.top + rect_2.bottom) / 2. - 10}, {rect_2.right - 30, rect_2.bottom}, {rect_2.left + 30, rect_2.bottom}, {rect_2.left ,(rect_2.top + rect_2.bottom) / 2. - 10} };
-            Polygon(hdc, point_p, 5);
-            break;
-        case 4:
-            Pie(hdc, rect_2.left, rect_2.top, rect_2.right, rect_2.bottom, (rect_2.left + rect_2.right) / 2., rect_2.top, rect_2.right, (rect_2.top + rect_2.bottom) / 2.);
+        {
+            POINT point[8]{ {rect_2.left, rect_2.top}, {rect_2.left, rect_2.bottom}, {rect_2.right, rect_2.top}, {rect_2.right, rect_2.bottom} };
+            Polygon(hdc, point, 4);
             break;
         }
+        case 3:
+        {
+            POINT point_p[10]{ {rect_2.left + 30, rect_2.top}, {rect_2.right - 30, rect_2.top}, {rect_2.right ,(rect_2.top + rect_2.bottom) / 2. + 10}, {(rect_2.left + rect_2.right) / 2., rect_2.bottom},    {rect_2.left ,(rect_2.top + rect_2.bottom) / 2. + 10} };
+            Polygon(hdc, point_p, 5);
+            break;
+        }
+        case 4:
+        {
+            Pie(hdc, rect_2.left, rect_2.top, rect_2.right, rect_2.bottom, rect_2.right, (rect_2.top + rect_2.bottom) / 2., (rect_2.left + rect_2.right) / 2., rect_2.top);
+            break;
+        }
+        }
+
+        SelectObject(hdc, old_brush);
+        DeleteObject(hBrush);
+
 
         OffsetRect(&rect, 0, 160);
         //FillRect(hdc, &rect, CreateSolidBrush(RGB(220, 220, 220)));
@@ -147,6 +188,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
         Pie(hdc, rect_2.left, rect_2.top, rect_2.right, rect_2.bottom, (rect_2.left + rect_2.right) / 2., rect_2.top, rect_2.right, (rect_2.top + rect_2.bottom) / 2.);
 
         SelectObject(hdc, old_brush);
+        DeleteObject(hBrush);
 
         OffsetRect(&rect, 0, -320);
         //FillRect(hdc, &rect, CreateSolidBrush(RGB(220, 220, 220)));
@@ -161,6 +203,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
         Polygon(hdc, point_tt, 4);
 
         SelectObject(hdc, old_brush);
+        DeleteObject(hBrush);
 
         OffsetRect(&rect, 160, 160);
         //FillRect(hdc, &rect, CreateSolidBrush(RGB(220, 220, 220)));
@@ -175,6 +218,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
         Polygon(hdc, point_p, 5);
 
         SelectObject(hdc, old_brush);
+        DeleteObject(hBrush);
 
         OffsetRect(&rect, -320, 0);
         //FillRect(hdc, &rect, CreateSolidBrush(RGB(220, 220, 220)));
