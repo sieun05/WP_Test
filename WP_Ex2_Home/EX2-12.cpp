@@ -51,6 +51,9 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmd
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 {
+
+    srand((unsigned)time(NULL));
+
     PAINTSTRUCT ps;
     HDC hdc;
 
@@ -60,23 +63,21 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
     HPEN hPen;
     HPEN old_pen;
 
-    static int board[ROW][COLUMN]{0, };
+	static int board[ROW][COLUMN]{ 0, }; 
+    //player1: 1, player2: 2, 장애물: 3, 색상변경칸: 4, 5, 6, 모양변경칸 7, 크기변경칸: 8, 9
+
+    static Player player[2]{ {0, 0}, { 39, 39 } };
+	static int order{}; //현재 턴을 가진 플레이어
 
     switch (iMsg) {
     case WM_CREATE:
-
-
+    {
+    }
         break;
     case WM_CHAR:
     {
         switch (wParam) {
         case 't':
-            board[5][9] = 1;
-            board[8][5] = 1;
-            board[0][2] = 1;
-            board[7][7] = 1;
-            board[7][0] = 1;
-            board[9][9] = 1;
 
             break;
         case 'q':
@@ -88,11 +89,33 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
     }
     case WM_KEYDOWN:
         switch (wParam) {
+
         case VK_LEFT:
+			if (player[order].getPoint().x > 0) //왼쪽으로 이동
+				player[order].setPoint(player[order].getPoint().x - 1, player[order].getPoint().y); //플레이어의 좌표를 변경
+			else
+				player[order].setPoint(0, player[order].getPoint().y); //플레이어의 좌표를 변경
             break;
         case VK_RIGHT:
+			if (player[order].getPoint().x < COLUMN - 1) //오른쪽으로 이동
+				player[order].setPoint(player[order].getPoint().x + 1, player[order].getPoint().y); //플레이어의 좌표를 변경
+			else
+				player[order].setPoint(COLUMN - 1, player[order].getPoint().y); //플레이어의 좌표를 변경
+            break;
+        case VK_UP:
+			if (player[order].getPoint().y > 0) //위쪽으로 이동
+				player[order].setPoint(player[order].getPoint().x, player[order].getPoint().y - 1); //플레이어의 좌표를 변경
+			else
+				player[order].setPoint(player[order].getPoint().x, 0); //플레이어의 좌표를 변경
+            break;
+        case VK_DOWN:
+			if (player[order].getPoint().y < ROW - 1) //아래쪽으로 이동
+				player[order].setPoint(player[order].getPoint().x, player[order].getPoint().y + 1); //플레이어의 좌표를 변경
+			else
+				player[order].setPoint(player[order].getPoint().x, ROW - 1); //플레이어의 좌표를 변경
             break;
         }
+        board[player[order].getPoint().x][player[order].getPoint().y] = 1; //플레이어1
         InvalidateRect(hWnd, NULL, TRUE);
         break;
     case WM_PAINT:
@@ -105,8 +128,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
         RECT full_rect{client_rect.left, client_rect.top, client_rect.left+ client_rect.bottom-10, client_rect.bottom-10};
         OffsetRect(&full_rect, 5, 5);
 
-        GRID_PAINT(hdc, full_rect, board); //그리드 그리기
-
+        GRID_PAINT(hdc, full_rect, board, player); //그리드 그리기
 
 
         EndPaint(hWnd, &ps);

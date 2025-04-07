@@ -1,22 +1,31 @@
 #pragma once
 #include "head.h"
 
-#define COLUMN 10
-#define ROW 10
+#define COLUMN 40
+#define ROW 40
 
-void GRID_PAINT(HDC& hdc, RECT& full_rect, int board[ROW][COLUMN]) {
+void GRID_PAINT(HDC& hdc, RECT& full_rect, int board[ROW][COLUMN], Player p[]) {
 
     float rect_width{ (float)(full_rect.right - full_rect.left) / COLUMN };
     float rect_heigth{ (float)(full_rect.bottom - full_rect.top) / ROW };
 
     for (int i{ 0}; i < COLUMN; i++) { //¼¼·ÎÁÙ
         for (int j{}; j < ROW; j++) {
-            if (board[j][i] == 1) {
-                RECT sell_rect{ full_rect.left, full_rect.top, full_rect.left + rect_width, full_rect.top + rect_heigth };
-                OffsetRect(&sell_rect, rect_width * i + 1, rect_heigth * j + 1);
-                InflateRect(&sell_rect, -3, -3);
+            RECT sell_rect{ full_rect.left, full_rect.top, full_rect.left + rect_width, full_rect.top + rect_heigth };
+            OffsetRect(&sell_rect, rect_width * i + 1, rect_heigth * j + 1);
 
+            if (board[j][i] == 3) {
                 FillRect(hdc, &sell_rect, (HBRUSH)CreateSolidBrush(RGB(255, 0, 0)));
+            }
+
+            if (board[j][i] == 1) {
+                InflateRect(&sell_rect, p[0].getSize(), p[0].getSize());
+                Ellipse(hdc, sell_rect.left, sell_rect.top, sell_rect.right, sell_rect.bottom);
+            }
+
+            if (board[j][i] == 2) {
+                InflateRect(&sell_rect, p[1].getSize(), p[1].getSize());
+                Ellipse(hdc, sell_rect.left, sell_rect.top, sell_rect.right, sell_rect.bottom);
             }
         }
 
