@@ -4,7 +4,7 @@
 #define COLUMN 40
 #define ROW 40
 
-void GRID_PAINT(HDC& hdc, RECT& full_rect, int board[ROW][COLUMN], Player p[]) {
+void GRID_PAINT(HDC& hdc, RECT& full_rect, int board[ROW][COLUMN], Player p[], Player end) {
 
     float rect_width{ (float)(full_rect.right - full_rect.left) / COLUMN };
     float rect_heigth{ (float)(full_rect.bottom - full_rect.top) / ROW };
@@ -51,6 +51,30 @@ void GRID_PAINT(HDC& hdc, RECT& full_rect, int board[ROW][COLUMN], Player p[]) {
                 Polygon(hdc, point_tt, 3);
             }
 
+            if (board[j][i] == 10) {
+                InflateRect(&sell_rect, end.size, end.size);
+                HBRUSH hBrush, old_brush;
+                hBrush = CreateSolidBrush(RGB(end.r, end.g, end.b));
+                old_brush = (HBRUSH)SelectObject(hdc, hBrush);
+
+                if (end.shape == 0) {
+                    Ellipse(hdc, sell_rect.left, sell_rect.top, sell_rect.right, sell_rect.bottom);
+                }
+                else if (end.shape == 1) {
+                    Rectangle(hdc, sell_rect.left, sell_rect.top, sell_rect.right, sell_rect.bottom);
+                }
+                else if (end.shape == 2) {
+                    POINT point_p[10]{ {(sell_rect.left + sell_rect.right) / 2., sell_rect.top}, {sell_rect.right ,(sell_rect.top + sell_rect.bottom) / 2. - 1}, {sell_rect.right - 3, sell_rect.bottom}, {sell_rect.left + 3, sell_rect.bottom}, {sell_rect.left ,(sell_rect.top + sell_rect.bottom) / 2. - 1} };
+                    Polygon(hdc, point_p, 5);
+                }
+                else if (end.shape == 3) {
+                    Pie(hdc, sell_rect.left, sell_rect.top, sell_rect.right, sell_rect.bottom, (sell_rect.left + sell_rect.right) / 2., sell_rect.top, sell_rect.right, (sell_rect.top + sell_rect.bottom) / 2.);
+                }
+
+                SelectObject(hdc, old_brush);
+                DeleteObject(hBrush);
+            }
+
             if (p[0].x==i and p[0].y==j) {
                 InflateRect(&sell_rect, p[0].size, p[0].size);
                 HBRUSH hBrush, old_brush;
@@ -77,7 +101,26 @@ void GRID_PAINT(HDC& hdc, RECT& full_rect, int board[ROW][COLUMN], Player p[]) {
 
             if (p[1].x == i and p[1].y == j) {
                 InflateRect(&sell_rect, p[1].size, p[1].size);
-                Ellipse(hdc, sell_rect.left, sell_rect.top, sell_rect.right, sell_rect.bottom);
+                HBRUSH hBrush, old_brush;
+                hBrush = CreateSolidBrush(RGB(p[1].r, p[1].g, p[1].b));
+                old_brush = (HBRUSH)SelectObject(hdc, hBrush);
+
+                if (p[1].shape == 0) {
+                    Ellipse(hdc, sell_rect.left, sell_rect.top, sell_rect.right, sell_rect.bottom);
+                }
+                else if (p[1].shape == 1) {
+                    Rectangle(hdc, sell_rect.left, sell_rect.top, sell_rect.right, sell_rect.bottom);
+                }
+                else if (p[1].shape == 2) {
+                    POINT point_p[10]{ {(sell_rect.left + sell_rect.right) / 2., sell_rect.top}, {sell_rect.right ,(sell_rect.top + sell_rect.bottom) / 2. - 1}, {sell_rect.right - 3, sell_rect.bottom}, {sell_rect.left + 3, sell_rect.bottom}, {sell_rect.left ,(sell_rect.top + sell_rect.bottom) / 2. - 1} };
+                    Polygon(hdc, point_p, 5);
+                }
+                else if (p[1].shape == 3) {
+                    Pie(hdc, sell_rect.left, sell_rect.top, sell_rect.right, sell_rect.bottom, (sell_rect.left + sell_rect.right) / 2., sell_rect.top, sell_rect.right, (sell_rect.top + sell_rect.bottom) / 2.);
+                }
+
+                SelectObject(hdc, old_brush);
+                DeleteObject(hBrush);
             }
         }
 
@@ -90,29 +133,6 @@ void GRID_PAINT(HDC& hdc, RECT& full_rect, int board[ROW][COLUMN], Player p[]) {
         LineTo(hdc, full_rect.right, full_rect.top + rect_heigth * i);
 
         
-    }
-
-    /*RECT sell_rect{ full_rect.left, full_rect.top, full_rect.left + rect_width -1, full_rect.top + rect_heigth -1};
-    OffsetRect(&sell_rect, rect_width*2 +1, rect_heigth*0+1);
-
-    FillRect(hdc, &sell_rect, (HBRUSH)CreateSolidBrush(RGB(50, 50, 150)));*/
-
-    FrameRect(hdc, &full_rect, (HBRUSH)GetStockObject(BLACK_BRUSH));
-}
-
-void GRID_PAINT(HDC& hdc, RECT& full_rect, HPEN& hPen) {
-
-    float rect_width{ (float)(full_rect.right - full_rect.left) / COLUMN };
-    float rect_heigth{ (float)(full_rect.bottom - full_rect.top) / ROW };
-
-    for (int i{ 1 }; i < COLUMN; i++) {
-        MoveToEx(hdc, full_rect.left + rect_width * i, full_rect.top, NULL);
-        LineTo(hdc, full_rect.left + rect_width * i, full_rect.bottom);
-    }
-
-    for (int i{ 1 }; i < ROW; i++) {
-        MoveToEx(hdc, full_rect.left, full_rect.top + rect_heigth * i, NULL);
-        LineTo(hdc, full_rect.right, full_rect.top + rect_heigth * i);
     }
 
     FrameRect(hdc, &full_rect, (HBRUSH)GetStockObject(BLACK_BRUSH));
