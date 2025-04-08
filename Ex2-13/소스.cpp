@@ -102,6 +102,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 			player = initial;
 			break;
 		}
+		
 	}
 	case WM_CHAR:
 	{
@@ -109,11 +110,44 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 		case 's':
 		case 'S':
 		{
-			if (not screen)
+			if (not screen) {
 				screen = 1;
+			}
+			else {
+				screen = 0;
+
+				std::fill(&board[0][0], &board[0][0] + ROW * COLUMN, 0);
+
+				for (int i{ 'A' }; i < 'Z'; i++) {
+					for (int j{}; j < 2; j++) {
+						int r_x{ rand() % 20 }, r_y{ rand() % 16 + 3 };
+						if (board[r_y][r_x] == 0) {
+							board[r_y][r_x] = i;
+						}
+					}
+				}
+
+				Word_sel = rand() % 5;
+				start_p = (20 - Answer_Word[Word_sel].length()) / 2;
+				int p{ start_p };
+
+				for (int i{}; i < Answer_Word[Word_sel].length(); i++) {
+					int flag{ rand() % 2 };
+					if (flag) {
+						board[1][p++] = Answer_Word[Word_sel][i];
+					}
+					else {
+						p++;
+					}
+				}
+
+				Player initial;
+				player = initial;
+			}
 			break;
 		}
 		}
+		InvalidateRect(hWnd, NULL, TRUE);
 		break;
 	}
 	case WM_KEYDOWN:
