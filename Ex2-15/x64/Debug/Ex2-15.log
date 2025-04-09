@@ -1,0 +1,129 @@
+﻿  main.cpp
+C:\Users\E323-08\Desktop\2024180020\WP_Test-master\WP_Test-master\Ex2-15\Shape_PAINT.h(30,22): warning C4838: 'double'에서 'LONG'(으)로의 변환에는 축소 변환이 필요합니다.
+  (소스 파일 'main.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\E323-08\Desktop\2024180020\WP_Test-master\WP_Test-master\Ex2-15\Shape_PAINT.h(30,22): warning C4244: '초기화 중': 'double'에서 'LONG'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  (소스 파일 'main.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\E323-08\Desktop\2024180020\WP_Test-master\WP_Test-master\Ex2-15\Shape_PAINT.h(49,32): warning C4838: 'double'에서 'LONG'(으)로의 변환에는 축소 변환이 필요합니다.
+  (소스 파일 'main.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\E323-08\Desktop\2024180020\WP_Test-master\WP_Test-master\Ex2-15\Shape_PAINT.h(49,32): warning C4244: '초기화 중': 'double'에서 'LONG'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  (소스 파일 'main.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\E323-08\Desktop\2024180020\WP_Test-master\WP_Test-master\Ex2-15\Shape_PAINT.h(50,49): warning C4838: 'double'에서 'LONG'(으)로의 변환에는 축소 변환이 필요합니다.
+  (소스 파일 'main.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\E323-08\Desktop\2024180020\WP_Test-master\WP_Test-master\Ex2-15\Shape_PAINT.h(50,49): warning C4244: '초기화 중': 'double'에서 'LONG'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  (소스 파일 'main.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\E323-08\Desktop\2024180020\WP_Test-master\WP_Test-master\Ex2-15\Shape_PAINT.h(53,48): warning C4838: 'double'에서 'LONG'(으)로의 변환에는 축소 변환이 필요합니다.
+  (소스 파일 'main.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\E323-08\Desktop\2024180020\WP_Test-master\WP_Test-master\Ex2-15\Shape_PAINT.h(53,48): warning C4244: '초기화 중': 'double'에서 'LONG'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  (소스 파일 'main.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\E323-08\Desktop\2024180020\WP_Test-master\WP_Test-master\Ex2-15\Shape_PAINT.h(60,33): warning C4838: 'double'에서 'LONG'(으)로의 변환에는 축소 변환이 필요합니다.
+  (소스 파일 'main.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\E323-08\Desktop\2024180020\WP_Test-master\WP_Test-master\Ex2-15\Shape_PAINT.h(60,33): warning C4244: '초기화 중': 'double'에서 'LONG'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  (소스 파일 'main.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\E323-08\Desktop\2024180020\WP_Test-master\WP_Test-master\Ex2-15\Shape_PAINT.h(61,49): warning C4838: 'double'에서 'LONG'(으)로의 변환에는 축소 변환이 필요합니다.
+  (소스 파일 'main.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\E323-08\Desktop\2024180020\WP_Test-master\WP_Test-master\Ex2-15\Shape_PAINT.h(61,49): warning C4244: '초기화 중': 'double'에서 'LONG'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  (소스 파일 'main.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\E323-08\Desktop\2024180020\WP_Test-master\WP_Test-master\Ex2-15\Shape_PAINT.h(62,49): warning C4838: 'double'에서 'LONG'(으)로의 변환에는 축소 변환이 필요합니다.
+  (소스 파일 'main.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\E323-08\Desktop\2024180020\WP_Test-master\WP_Test-master\Ex2-15\Shape_PAINT.h(62,49): warning C4244: '초기화 중': 'double'에서 'LONG'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  (소스 파일 'main.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\E323-08\Desktop\2024180020\WP_Test-master\WP_Test-master\Ex2-15\Shape_PAINT.h(63,33): warning C4838: 'double'에서 'LONG'(으)로의 변환에는 축소 변환이 필요합니다.
+  (소스 파일 'main.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\E323-08\Desktop\2024180020\WP_Test-master\WP_Test-master\Ex2-15\Shape_PAINT.h(63,33): warning C4244: '초기화 중': 'double'에서 'LONG'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  (소스 파일 'main.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\E323-08\Desktop\2024180020\WP_Test-master\WP_Test-master\Ex2-15\Shape_PAINT.h(64,50): warning C4838: 'double'에서 'LONG'(으)로의 변환에는 축소 변환이 필요합니다.
+  (소스 파일 'main.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\E323-08\Desktop\2024180020\WP_Test-master\WP_Test-master\Ex2-15\Shape_PAINT.h(64,50): warning C4244: '초기화 중': 'double'에서 'LONG'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  (소스 파일 'main.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\E323-08\Desktop\2024180020\WP_Test-master\WP_Test-master\Ex2-15\Shape_PAINT.h(65,50): warning C4838: 'double'에서 'LONG'(으)로의 변환에는 축소 변환이 필요합니다.
+  (소스 파일 'main.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\E323-08\Desktop\2024180020\WP_Test-master\WP_Test-master\Ex2-15\Shape_PAINT.h(65,50): warning C4244: '초기화 중': 'double'에서 'LONG'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  (소스 파일 'main.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\E323-08\Desktop\2024180020\WP_Test-master\WP_Test-master\Ex2-15\Shape_PAINT.h(96,21): warning C4838: 'double'에서 'LONG'(으)로의 변환에는 축소 변환이 필요합니다.
+  (소스 파일 'main.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\E323-08\Desktop\2024180020\WP_Test-master\WP_Test-master\Ex2-15\Shape_PAINT.h(96,21): warning C4244: '초기화 중': 'double'에서 'LONG'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  (소스 파일 'main.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\E323-08\Desktop\2024180020\WP_Test-master\WP_Test-master\Ex2-15\Shape_PAINT.h(115,31): warning C4838: 'double'에서 'LONG'(으)로의 변환에는 축소 변환이 필요합니다.
+  (소스 파일 'main.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\E323-08\Desktop\2024180020\WP_Test-master\WP_Test-master\Ex2-15\Shape_PAINT.h(115,31): warning C4244: '초기화 중': 'double'에서 'LONG'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  (소스 파일 'main.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\E323-08\Desktop\2024180020\WP_Test-master\WP_Test-master\Ex2-15\Shape_PAINT.h(116,48): warning C4838: 'double'에서 'LONG'(으)로의 변환에는 축소 변환이 필요합니다.
+  (소스 파일 'main.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\E323-08\Desktop\2024180020\WP_Test-master\WP_Test-master\Ex2-15\Shape_PAINT.h(116,48): warning C4244: '초기화 중': 'double'에서 'LONG'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  (소스 파일 'main.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\E323-08\Desktop\2024180020\WP_Test-master\WP_Test-master\Ex2-15\Shape_PAINT.h(119,47): warning C4838: 'double'에서 'LONG'(으)로의 변환에는 축소 변환이 필요합니다.
+  (소스 파일 'main.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\E323-08\Desktop\2024180020\WP_Test-master\WP_Test-master\Ex2-15\Shape_PAINT.h(119,47): warning C4244: '초기화 중': 'double'에서 'LONG'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  (소스 파일 'main.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\E323-08\Desktop\2024180020\WP_Test-master\WP_Test-master\Ex2-15\Shape_PAINT.h(126,32): warning C4838: 'double'에서 'LONG'(으)로의 변환에는 축소 변환이 필요합니다.
+  (소스 파일 'main.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\E323-08\Desktop\2024180020\WP_Test-master\WP_Test-master\Ex2-15\Shape_PAINT.h(126,32): warning C4244: '초기화 중': 'double'에서 'LONG'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  (소스 파일 'main.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\E323-08\Desktop\2024180020\WP_Test-master\WP_Test-master\Ex2-15\Shape_PAINT.h(127,48): warning C4838: 'double'에서 'LONG'(으)로의 변환에는 축소 변환이 필요합니다.
+  (소스 파일 'main.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\E323-08\Desktop\2024180020\WP_Test-master\WP_Test-master\Ex2-15\Shape_PAINT.h(127,48): warning C4244: '초기화 중': 'double'에서 'LONG'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  (소스 파일 'main.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\E323-08\Desktop\2024180020\WP_Test-master\WP_Test-master\Ex2-15\Shape_PAINT.h(128,48): warning C4838: 'double'에서 'LONG'(으)로의 변환에는 축소 변환이 필요합니다.
+  (소스 파일 'main.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\E323-08\Desktop\2024180020\WP_Test-master\WP_Test-master\Ex2-15\Shape_PAINT.h(128,48): warning C4244: '초기화 중': 'double'에서 'LONG'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  (소스 파일 'main.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\E323-08\Desktop\2024180020\WP_Test-master\WP_Test-master\Ex2-15\Shape_PAINT.h(129,32): warning C4838: 'double'에서 'LONG'(으)로의 변환에는 축소 변환이 필요합니다.
+  (소스 파일 'main.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\E323-08\Desktop\2024180020\WP_Test-master\WP_Test-master\Ex2-15\Shape_PAINT.h(129,32): warning C4244: '초기화 중': 'double'에서 'LONG'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  (소스 파일 'main.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\E323-08\Desktop\2024180020\WP_Test-master\WP_Test-master\Ex2-15\Shape_PAINT.h(130,49): warning C4838: 'double'에서 'LONG'(으)로의 변환에는 축소 변환이 필요합니다.
+  (소스 파일 'main.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\E323-08\Desktop\2024180020\WP_Test-master\WP_Test-master\Ex2-15\Shape_PAINT.h(130,49): warning C4244: '초기화 중': 'double'에서 'LONG'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  (소스 파일 'main.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\E323-08\Desktop\2024180020\WP_Test-master\WP_Test-master\Ex2-15\Shape_PAINT.h(131,49): warning C4838: 'double'에서 'LONG'(으)로의 변환에는 축소 변환이 필요합니다.
+  (소스 파일 'main.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\E323-08\Desktop\2024180020\WP_Test-master\WP_Test-master\Ex2-15\Shape_PAINT.h(131,49): warning C4244: '초기화 중': 'double'에서 'LONG'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  (소스 파일 'main.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\E323-08\Desktop\2024180020\WP_Test-master\WP_Test-master\Ex2-15\main.cpp(66,31): warning C4267: '=': 'size_t'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\E323-08\Desktop\2024180020\WP_Test-master\WP_Test-master\Ex2-15\main.cpp(120,12): warning C4244: '인수': 'WPARAM'에서 '_Elem'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Users\E323-08\Desktop\2024180020\WP_Test-master\WP_Test-master\Ex2-15\main.cpp(120,12): warning C4244:         with
+C:\Users\E323-08\Desktop\2024180020\WP_Test-master\WP_Test-master\Ex2-15\main.cpp(120,12): warning C4244:         [
+C:\Users\E323-08\Desktop\2024180020\WP_Test-master\WP_Test-master\Ex2-15\main.cpp(120,12): warning C4244:             _Elem=wchar_t
+C:\Users\E323-08\Desktop\2024180020\WP_Test-master\WP_Test-master\Ex2-15\main.cpp(120,12): warning C4244:         ]
+C:\Users\E323-08\Desktop\2024180020\WP_Test-master\WP_Test-master\Ex2-15\main.cpp(119,3): warning C4102: 'defualt': 참조되지 않은 레이블입니다.
+  Ex2-15.vcxproj -> C:\Users\E323-08\Desktop\2024180020\WP_Test-master\WP_Test-master\x64\Debug\Ex2-15.exe
