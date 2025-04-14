@@ -8,6 +8,7 @@ void Shape_PAINT(HDC hdc, const std::vector<Shape>& shapes, const int& select_in
 	COLORREF b_color[5]{ RGB(255, 255,255), RGB(50, 255,50), RGB(255, 50,50), RGB(50, 50, 255), RGB(255, 255, 50) };
 	
 	if (all_shapes_print) {
+
 		for (int i{}; i < shapes.size(); i++) {
 			const Shape& s = shapes[i];
 
@@ -75,6 +76,10 @@ void Shape_PAINT(HDC hdc, const std::vector<Shape>& shapes, const int& select_in
 		}
 	}
 	else {
+		if (select_index < 0) {
+			return;
+		}
+
 		const Shape& s = shapes[select_index];
 
 		RECT rect{ s.x1, s.y1, s.x2, s.y2 };
@@ -113,10 +118,10 @@ void Shape_PAINT(HDC hdc, const std::vector<Shape>& shapes, const int& select_in
 		{
 			POINT p[10]{
 				{(rect.left + rect.right) / 2., rect.top},
-				{rect.right ,(rect.top + rect.bottom) / 2. - (rect.right + rect.left) / 10},
-				{rect.right - (rect.right + rect.left) / 3, rect.bottom},
-				{rect.left + (rect.right + rect.left) / 3, rect.bottom},
-				{rect.left ,(rect.top + rect.bottom) / 2. - (rect.right + rect.left) / 10} };
+				{rect.right ,(rect.top + rect.bottom) / 2. - (rect.right + rect.left) / 20},
+				{rect.right - (rect.right + rect.left) / 6, rect.bottom},
+				{rect.left + (rect.right + rect.left) / 6, rect.bottom},
+				{rect.left ,(rect.top + rect.bottom) / 2. - (rect.right + rect.left) / 20} };
 			Polygon(hdc, p, 5);
 			break;
 		}
@@ -130,6 +135,7 @@ void Shape_PAINT(HDC hdc, const std::vector<Shape>& shapes, const int& select_in
 				{ rect.right, (rect.top + rect.bottom) / 2. + (rect.top + rect.bottom) / 4. },
 				{ rect.right, (rect.top + rect.bottom) / 2. - (rect.top + rect.bottom) / 4. }
 			};
+			Polygon(hdc, p, 6);
 			break;
 		}
 		}

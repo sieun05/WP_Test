@@ -59,12 +59,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 	static int all_shapes_print{};
 	static std::wstring memo;
 
+	bool flag{};
+
 	switch (iMsg) {
 	case WM_CREATE:
-
-		shapes.emplace_back(2, 100, 100, 300, 300, 3, 2, 2);
-		select_index = shapes.size()-1;
-		shapes.emplace_back(4, 200, 200, 300, 300, 5, 3, 5);
 
 		break;
 	case WM_CHAR:
@@ -75,6 +73,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 					shapes[select_index].size++;
 				else shapes[select_index].width++;
 			}
+			else {
+				memo = L"Error";
+			}
 			break;
 		case '-':
 			if (select_index > -1) {
@@ -83,41 +84,71 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 				else if (shapes[select_index].width > - 10)
 					shapes[select_index].width--;
 			}
+			else {
+				memo = L"Error";
+			}
 			break;
-		case '1':
+		case 'm':
 			if (select_index > -1) {
 				shapes[select_index].pen_color++;
 				if (shapes[select_index].pen_color > 4)
 					shapes[select_index].pen_color %= 5;
 			}
+			else {
+				memo = L"Error";
+			}
 			break;
-		case '2':
+		case 'b':
 			if (select_index > -1) {
 				shapes[select_index].brush_color++;
 				if (shapes[select_index].brush_color > 4)
 					shapes[select_index].brush_color %= 5;
 			}
+			else {
+				memo = L"Error";
+			}
 			break;
 		case 'p':
 			if (select_index > 0)
 				select_index--;
+			else {
+				memo = L"Error";
+			}
 			break;
 		case 'n':
 			if (select_index < shapes.size() - 1)
 				select_index++;
+			else {
+				memo = L"Error";
+			}
 			break;
 		case 'a':
 			all_shapes_print = (all_shapes_print == 0) ? 1 : 0;
+			if(shapes.size()<1)
+				memo = L"Error";
 			break;
 		case 'd':
-
+			if (select_index > -1) {
+				shapes.erase(shapes.begin() + select_index);
+				select_index = (shapes.size() > 0) ? select_index - 1 : -1;
+			}
+			else {
+				memo = L"Error";
+			}
+			break;
+		case VK_RETURN:
+			Shape_Create(memo, shapes, select_index);
+			break;
+		case VK_BACK:
+			if (memo.length() > 0)
+				memo.pop_back();
 			break;
 		case 'q':
 		case 'Q':
 			PostQuitMessage(0);
 			return 0;
-		defualt:
-			memo += wParam;
+		default:
+			memo += (wchar_t)wParam;
 		}
 		InvalidateRect(hWnd, NULL, TRUE);
 		break;
@@ -146,11 +177,12 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 
 		Shape_PAINT(hdc, shapes, select_index, all_shapes_print);
 
-		if(not all_shapes_print){
+		wsprintf(prt_txt, TEXT("%s"), memo.c_str());
+		TextOut(hdc, clientRect.right - 200, 70, prt_txt, lstrlen(prt_txt));
+
+		if(not all_shapes_print and select_index>-1){
 			Shape& s = shapes[select_index];
 
-			wsprintf(prt_txt, TEXT("%s"),memo);
-			TextOut(hdc, clientRect.right - 200, 70, prt_txt, lstrlen(prt_txt));
 			wsprintf(prt_txt, shape[s.shape_sel - 2]);
 			TextOut(hdc, clientRect.right - 200, 100, prt_txt, lstrlen(prt_txt));
 			wsprintf(prt_txt, TEXT("Point: (%d, %d), (%d, %d)"),s.x1, s.y1, s.x2, s.y2);
