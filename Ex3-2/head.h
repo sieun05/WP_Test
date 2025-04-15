@@ -41,7 +41,11 @@ void Circle_Move(std::vector<Circle>& shapes, Cell board[ROW][COLUMN], int& main
 			if (s.size < -7 || s.size > 0)
 				s.size_flag *= -1;
 			break;
-		}	
+		}
+
+		if (board[s.y][s.x].type == 1) {
+			shapes.erase(shapes.begin() + i);
+		}
 	}
 
 	for (int i{}; i < shapes.size(); i++) {

@@ -59,6 +59,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 
 
 	static int fps{ 300 };
+	static int obstacle_num{};
 
 	switch (iMsg) {
 	case WM_CREATE:
@@ -68,13 +69,13 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 
 		board[0][0].type = 10;
 
-		for (int i{}; i < 20; i++) {
+		/*for (int i{}; i < 20; i++) {
 			int obstacleX{ dis(gen) };
 			int obstacleY{ dis(gen) };
 			if (not board[obstacleY][obstacleX].type) {
 				board[obstacleY][obstacleX].type = 1;
 			}
-		}
+		}*/
 
 		for (int i{}; i < 50; i++) {
 			int obstacleX{ dis(gen) };
@@ -102,6 +103,15 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 			fps += 30;
 			SetTimer(hWnd, 1, fps, NULL);
 			break;
+		case 'j':
+			//jump_up_flag, jump_down_flag, jump_x, jump_y << 평소 x,y=0 점프할때만 조정
+			break;
+		case 't':
+			//order만 한 칸씩 이동하면 됨
+			break;
+		case 'a':
+			//고민좀 해봐야함...... 그냥 꼬리 벡터를 정말 하나 더 만들어야하나 싶음
+			break;
 		case 'q':
 			KillTimer(hWnd, 1);
 			PostQuitMessage(0);
@@ -121,11 +131,32 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 		case VK_DOWN:
 			break;
 		}
-
 		break;
 	case WM_LBUTTONDOWN:
-		
+		//클릭햇을때 위치 구하고 주인공원이랑 위치 비교 (같으면 원 크기 크게, 다르면 이동방향 바꾸기)
+		//이동방향 바꾸는 방식: board[y][x]=4 5 6 7??? 아니면 4만 하고 장애물처럼 처리한다음에 방향만 조정하기?? 키보드 입력방식이랑 같이 고민하기
+		//꼬리원이라면 그 뒤 꼬리원 다 order=0 만들고 direction 랜덤값 주기
 		break;
+	case WM_RBUTTONDOWN:
+	{
+		if(obstacle_num<20){
+			int mx = LOWORD(lParam);
+			int my = HIWORD(lParam);
+			float rect_width{ (float)(clientRect.right - clientRect.left) / COLUMN };
+			float rect_height{ (float)(clientRect.bottom - clientRect.top) / ROW };
+
+			int o_x = (mx - clientRect.left) / rect_width;
+			int o_y = (my - clientRect.top) / rect_height;
+
+			if(not board[o_y][o_x].type){
+				board[o_y][o_x].type = 1;
+				obstacle_num++;
+			}
+		}
+
+		InvalidateRect(hWnd, NULL, TRUE);
+		break;
+	}
 	case WM_TIMER:
 	{
 		Circle_Move(shapes, board, main_circles_num);
