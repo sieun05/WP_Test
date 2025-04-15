@@ -2,7 +2,11 @@
 <Project>
   <ProjectOutputs>
     <ProjectOutput>
+<<<<<<< HEAD
       <FullPath>E:\학교 과제\2025 한국공대 2학년\윈도우프로그래밍\WP_Test\x64\Debug\Ex2-15.exe</FullPath>
+=======
+      <FullPath>C:\Users\A\Documents\학교과제\2025\윈도우프로그래밍\WP_Test\x64\Debug\Ex2-15.exe</FullPath>
+>>>>>>> f1e90350ed24d5d8217fa838cdd9d259a0018176
     </ProjectOutput>
   </ProjectOutputs>
   <ContentFiles />
