@@ -53,38 +53,35 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 
 	static RECT clientRect;
 
-	static int board[ROW][COLUMN]{0, }; //0빈칸 1장애물 2먹이
+	static Cell board[ROW][COLUMN]{0, }; //0빈칸 1장애물 2먹이
 	static std::vector<Circle> shapes;
 	static int main_circles_num{};
 
-	static int fps{ 100 };
+
+	static int fps{ 300 };
 
 	switch (iMsg) {
 	case WM_CREATE:
 	{
-		SetTimer(hWnd, 1, fps, NULL); //타이머 설정
-		shapes.emplace_back(2, 0, 1, 0, ++main_circles_num, 0);
-		shapes.emplace_back(1, 0, 1, 0, ++main_circles_num, 0);
+		//shapes.emplace_back(1, 0, 1, 0, ++main_circles_num, 0);
 		shapes.emplace_back(0, 0, 1, 0, ++main_circles_num, 3);
 
-		shapes.emplace_back(7, 7, 1, 0, 0, 5);
-		shapes.emplace_back(7, 9, 2, 0, 0, 5);
-		shapes.emplace_back(10, 15, 3, 0, 0, 6);
-		shapes.emplace_back(11, 15, 0, 0, 0, 6);
+		board[0][0].type = 10;
 
-		board[0][0] = 10;
-		board[0][1] = 10;
-		board[0][2] = 10;
-		board[7][7] = 10;
-		board[7][9] = 10;
-		board[10][15] = 10;
-		board[11][15] = 10;
-
-		for (int i{}; i < 30; i++) {
+		for (int i{}; i < 20; i++) {
 			int obstacleX{ dis(gen) };
 			int obstacleY{ dis(gen) };
-			if (not board[obstacleY][obstacleX]) {
-				board[obstacleY][obstacleX] = 1;
+			if (not board[obstacleY][obstacleX].type) {
+				board[obstacleY][obstacleX].type = 1;
+			}
+		}
+
+		for (int i{}; i < 50; i++) {
+			int obstacleX{ dis(gen) };
+			int obstacleY{ dis(gen) };
+			if (not board[obstacleY][obstacleX].type) {
+				board[obstacleY][obstacleX].type = 2; //이 자리에 숫자를 하나 더 저장할 방법?
+				board[obstacleY][obstacleX].color = color(gen);
 			}
 		}
 		break;
@@ -92,25 +89,46 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 	case WM_CHAR:
 	{
 		switch (wParam) {
-		case 'a':
-			KillTimer(hWnd, 1);
-			break;
 		case 's':
 			SetTimer(hWnd, 1, fps, NULL); //타이머 설정
 			break;
+		case '+':
+			KillTimer(hWnd, 1);
+			fps -= 30;
+			SetTimer(hWnd, 1, fps, NULL);
+			break;
+		case '-':
+			KillTimer(hWnd, 1);
+			fps += 30;
+			SetTimer(hWnd, 1, fps, NULL);
+			break;
 		case 'q':
+			KillTimer(hWnd, 1);
 			PostQuitMessage(0);
 			return 0;
 		}
 		InvalidateRect(hWnd, NULL, TRUE);
 		break;
 	}
+	case WM_KEYDOWN:
+		switch (wParam) {
+		case VK_LEFT:
+			break;
+		case VK_RIGHT:
+			break;
+		case VK_UP:
+			break;
+		case VK_DOWN:
+			break;
+		}
+
+		break;
 	case WM_LBUTTONDOWN:
 		
 		break;
 	case WM_TIMER:
 	{
-		Circle_Move(shapes, board);
+		Circle_Move(shapes, board, main_circles_num);
 
 		InvalidateRect(hWnd, NULL, TRUE);
 		break;
