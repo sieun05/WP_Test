@@ -61,10 +61,12 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 	static int fps{ 300 };
 	static int obstacle_num{};
 
+	static int jump_count{};
+	static bool jump_flag{false};
+
 	switch (iMsg) {
 	case WM_CREATE:
 	{
-		//shapes.emplace_back(1, 0, 1, 0, ++main_circles_num, 0);
 		shapes.emplace_back(0, 0, 1, 0, ++main_circles_num, 3);
 
 		board[0][0].type = 10;
@@ -105,8 +107,13 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 			break;
 		case 'j':
 			//jump_up_flag, jump_down_flag, jump_x, jump_y << 평소 x,y=0 점프할때만 조정
+			if (not jump_flag)
+				jump_count = main_circles_num;
 			break;
 		case 't':
+			if (shapes.size() > 0) {
+				T_Down(shapes, main_circles_num);
+			}
 			//order만 한 칸씩 이동하면 됨
 			break;
 		case 'a':
@@ -152,6 +159,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 				board[o_y][o_x].type = 1;
 				obstacle_num++;
 			}
+			else if (board[o_y][o_x].type==1) {
+				board[o_y][o_x].type = 0;
+				obstacle_num--;
+			}
 		}
 
 		InvalidateRect(hWnd, NULL, TRUE);
@@ -160,6 +171,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 	case WM_TIMER:
 	{
 		Circle_Move(shapes, board, main_circles_num);
+		if (jump_count > 0) {
+			Circle_Jump(shapes, board, jump_count, jump_flag, main_circles_num);
+		}
 
 		InvalidateRect(hWnd, NULL, TRUE);
 		break;

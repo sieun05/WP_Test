@@ -56,16 +56,14 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 	static RECT clientRect{};
 	
 	static Cell board[ROW][COLUMN]{ 0,  };
-	static std::vector<Block_1> b1;
-	static std::vector<Block_2> b2;
-	static std::vector<Block_3> b3;
+	static std::vector<Block> blocks;
 
-	static int block_down_flag{};
-	static int game_end_flag{};
-	static int current_block{};
-	static int current_block_index{};
+	static bool block_down_flag{};
+	static bool game_end_flag{1};
 
-	static int fps{ 300 };
+	static int fps{ 1000 };
+
+	static int n{};
 
 	switch (iMsg) {
 	case WM_CREATE:
@@ -76,32 +74,43 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 	case WM_CHAR:
 		switch (wParam) {
 		case 's':
+			game_end_flag = 0;	
 			SetTimer(hWnd, 1, fps, NULL);
+			memset(board, 0, sizeof(board));
 			break;
 		case 'q':
-			//KillTimer(hWnd, 1);
+			KillTimer(hWnd, 1);
 			PostQuitMessage(0);
 			return 0;
 		case VK_RETURN:
-
+			if (blocks.size() > 0) {
+				int temp{ blocks[blocks.size() - 1].width };
+				blocks[blocks.size() - 1].width = blocks[blocks.size() - 1].height;
+				blocks[blocks.size() - 1].height = temp;
+			}
 			break;
 		}
+		InvalidateRect(hWnd, NULL, FALSE);
 		break;
 	case WM_KEYDOWN:
-		switch (wParam) {
-		case VK_LEFT:
+		if (not game_end_flag) {
 
-			break;
-		case VK_RIGHT:
-
-			break;
-		case VK_UP:
-
-			break;
-		case VK_DOWN:
-
-			break;
+			switch (wParam) {
+			case VK_LEFT:
+				Block_Move(board, blocks, -1, 0, block_down_flag, game_end_flag);
+				break;
+			case VK_RIGHT:
+				Block_Move(board, blocks, 1, 0, block_down_flag, game_end_flag);
+				break;
+			case VK_UP:
+				blocks[blocks.size() - 1].y = 0;
+				break;
+			case VK_DOWN:
+				Block_Move(board, blocks, 0, 1, block_down_flag, game_end_flag);
+				break;
+			}
 		}
+		InvalidateRect(hWnd, NULL, FALSE);
 		break;
 	case WM_LBUTTONDOWN:
 		
@@ -113,12 +122,18 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 	}
 	case WM_TIMER:
 	{
-		if (not block_down_flag) {
-			Block_Create(board, b1, b2, b3, current_block, current_block_index, block_down_flag, game_end_flag);
-			//Crash_Check(board, b1, b2, b3);
+		if (game_end_flag) {
+			memset(board, 0, sizeof(board));
+			KillTimer(hWnd, 1);
+			MessageBox(hWnd, TEXT("게임 종료"), TEXT("Ex3-4"), MB_OK);
+		}
+
+		if (block_down_flag) {
+			Block_Move(board, blocks, 0, 1, block_down_flag, game_end_flag);
+			n += 10;
 		}
 		else {
-			Block_Move(board, b1, b2, b3, current_block, current_block_index);
+			Block_Create(board, blocks, block_down_flag, game_end_flag); // 추가
 		}
 		InvalidateRect(hWnd, NULL, FALSE);
 		break;
@@ -136,7 +151,16 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 		OffsetRect(&full_rect, clientRect.right / 2. - full_rect.right / 2., 0);
 		InflateRect(&full_rect, -5, -5);
 
-		GRID_PAINT(mdc, full_rect, board);
+		GRID_PAINT(mdc, full_rect, board, blocks);
+
+		wsprintf(prt_txt, TEXT("%d"), blocks.size());
+		TextOut(mdc, 10, 10, prt_txt, lstrlen(prt_txt));
+		if(blocks.size()>0){
+			wsprintf(prt_txt, TEXT("%d %d"), blocks[blocks.size() - 1].x, blocks[blocks.size() - 1].y);
+			TextOut(mdc, 10, 25, prt_txt, lstrlen(prt_txt));
+		}
+		wsprintf(prt_txt, TEXT("%d"), n);
+		TextOut(mdc, 10, 40, prt_txt, lstrlen(prt_txt));
 
 		BitBlt(hdc, 0, 0, clientRect.right, clientRect.bottom, mdc, 0, 0, SRCCOPY);
 
@@ -145,7 +169,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 		break;
 	}
 	case WM_DESTROY:
-		//KillTimer(hWnd, 1);
+		KillTimer(hWnd, 1);
 		PostQuitMessage(0);
 		return 0;
 	}

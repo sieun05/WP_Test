@@ -1,28 +1,28 @@
 ﻿  Ex2-11.cpp
-C:\Users\A\Documents\학교과제\2025\윈도우프로그래밍\WP_Test\WP_Test\Ex2-11.cpp(117,47): warning C4244: '인수': 'WPARAM'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\A\Documents\학교과제\2025\윈도우프로그래밍\WP_Test\WP_Test\Ex2-11.cpp(143,47): warning C4244: '인수': 'WPARAM'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\A\Documents\학교과제\2025\윈도우프로그래밍\WP_Test\WP_Test\Ex2-11.cpp(153,43): warning C4838: 'double'에서 'LONG'(으)로의 변환에는 축소 변환이 필요합니다.
-C:\Users\A\Documents\학교과제\2025\윈도우프로그래밍\WP_Test\WP_Test\Ex2-11.cpp(153,43): warning C4244: '초기화 중': 'double'에서 'LONG'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\A\Documents\학교과제\2025\윈도우프로그래밍\WP_Test\WP_Test\Ex2-11.cpp(153,74): warning C4838: 'double'에서 'LONG'(으)로의 변환에는 축소 변환이 필요합니다.
-C:\Users\A\Documents\학교과제\2025\윈도우프로그래밍\WP_Test\WP_Test\Ex2-11.cpp(153,74): warning C4244: '초기화 중': 'double'에서 'LONG'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\A\Documents\학교과제\2025\윈도우프로그래밍\WP_Test\WP_Test\Ex2-11.cpp(153,104): warning C4838: 'double'에서 'LONG'(으)로의 변환에는 축소 변환이 필요합니다.
-C:\Users\A\Documents\학교과제\2025\윈도우프로그래밍\WP_Test\WP_Test\Ex2-11.cpp(153,104): warning C4244: '초기화 중': 'double'에서 'LONG'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\A\Documents\학교과제\2025\윈도우프로그래밍\WP_Test\WP_Test\Ex2-11.cpp(153,135): warning C4838: 'double'에서 'LONG'(으)로의 변환에는 축소 변환이 필요합니다.
-C:\Users\A\Documents\학교과제\2025\윈도우프로그래밍\WP_Test\WP_Test\Ex2-11.cpp(153,135): warning C4244: '초기화 중': 'double'에서 'LONG'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\A\Documents\학교과제\2025\윈도우프로그래밍\WP_Test\WP_Test\Ex2-11.cpp(189,146): warning C4838: 'double'에서 'LONG'(으)로의 변환에는 축소 변환이 필요합니다.
-C:\Users\A\Documents\학교과제\2025\윈도우프로그래밍\WP_Test\WP_Test\Ex2-11.cpp(189,146): warning C4244: '초기화 중': 'double'에서 'LONG'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\A\Documents\학교과제\2025\윈도우프로그래밍\WP_Test\WP_Test\Ex2-11.cpp(189,183): warning C4838: 'double'에서 'LONG'(으)로의 변환에는 축소 변환이 필요합니다.
-C:\Users\A\Documents\학교과제\2025\윈도우프로그래밍\WP_Test\WP_Test\Ex2-11.cpp(189,183): warning C4244: '초기화 중': 'double'에서 'LONG'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\A\Documents\학교과제\2025\윈도우프로그래밍\WP_Test\WP_Test\Ex2-11.cpp(189,256): warning C4838: 'double'에서 'LONG'(으)로의 변환에는 축소 변환이 필요합니다.
-C:\Users\A\Documents\학교과제\2025\윈도우프로그래밍\WP_Test\WP_Test\Ex2-11.cpp(189,256): warning C4244: '초기화 중': 'double'에서 'LONG'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\A\Documents\학교과제\2025\윈도우프로그래밍\WP_Test\WP_Test\Ex2-11.cpp(195,154): warning C4244: '인수': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\A\Documents\학교과제\2025\윈도우프로그래밍\WP_Test\WP_Test\Ex2-11.cpp(195,119): warning C4244: '인수': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\A\Documents\학교과제\2025\윈도우프로그래밍\WP_Test\WP_Test\Ex2-11.cpp(251,43): warning C4838: 'double'에서 'LONG'(으)로의 변환에는 축소 변환이 필요합니다.
-C:\Users\A\Documents\학교과제\2025\윈도우프로그래밍\WP_Test\WP_Test\Ex2-11.cpp(251,43): warning C4244: '초기화 중': 'double'에서 'LONG'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\A\Documents\학교과제\2025\윈도우프로그래밍\WP_Test\WP_Test\Ex2-11.cpp(252,58): warning C4838: 'double'에서 'LONG'(으)로의 변환에는 축소 변환이 필요합니다.
-C:\Users\A\Documents\학교과제\2025\윈도우프로그래밍\WP_Test\WP_Test\Ex2-11.cpp(252,58): warning C4244: '초기화 중': 'double'에서 'LONG'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\A\Documents\학교과제\2025\윈도우프로그래밍\WP_Test\WP_Test\Ex2-11.cpp(255,57): warning C4838: 'double'에서 'LONG'(으)로의 변환에는 축소 변환이 필요합니다.
-C:\Users\A\Documents\학교과제\2025\윈도우프로그래밍\WP_Test\WP_Test\Ex2-11.cpp(255,57): warning C4244: '초기화 중': 'double'에서 'LONG'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\A\Documents\학교과제\2025\윈도우프로그래밍\WP_Test\WP_Test\Ex2-11.cpp(268,52): warning C4244: '인수': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-C:\Users\A\Documents\학교과제\2025\윈도우프로그래밍\WP_Test\WP_Test\Ex2-11.cpp(267,42): warning C4244: '인수': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-  WP_Test.vcxproj -> C:\Users\A\Documents\학교과제\2025\윈도우프로그래밍\WP_Test\x64\Debug\WP_Test.exe
+E:\학교 과제\2025 한국공대 2학년\윈도우프로그래밍\WP_Test\WP_Test\Ex2-11.cpp(117,47): warning C4244: '인수': 'WPARAM'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+E:\학교 과제\2025 한국공대 2학년\윈도우프로그래밍\WP_Test\WP_Test\Ex2-11.cpp(143,47): warning C4244: '인수': 'WPARAM'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+E:\학교 과제\2025 한국공대 2학년\윈도우프로그래밍\WP_Test\WP_Test\Ex2-11.cpp(153,43): warning C4838: 'double'에서 'LONG'(으)로의 변환에는 축소 변환이 필요합니다.
+E:\학교 과제\2025 한국공대 2학년\윈도우프로그래밍\WP_Test\WP_Test\Ex2-11.cpp(153,43): warning C4244: '초기화 중': 'double'에서 'LONG'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+E:\학교 과제\2025 한국공대 2학년\윈도우프로그래밍\WP_Test\WP_Test\Ex2-11.cpp(153,74): warning C4838: 'double'에서 'LONG'(으)로의 변환에는 축소 변환이 필요합니다.
+E:\학교 과제\2025 한국공대 2학년\윈도우프로그래밍\WP_Test\WP_Test\Ex2-11.cpp(153,74): warning C4244: '초기화 중': 'double'에서 'LONG'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+E:\학교 과제\2025 한국공대 2학년\윈도우프로그래밍\WP_Test\WP_Test\Ex2-11.cpp(153,104): warning C4838: 'double'에서 'LONG'(으)로의 변환에는 축소 변환이 필요합니다.
+E:\학교 과제\2025 한국공대 2학년\윈도우프로그래밍\WP_Test\WP_Test\Ex2-11.cpp(153,104): warning C4244: '초기화 중': 'double'에서 'LONG'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+E:\학교 과제\2025 한국공대 2학년\윈도우프로그래밍\WP_Test\WP_Test\Ex2-11.cpp(153,135): warning C4838: 'double'에서 'LONG'(으)로의 변환에는 축소 변환이 필요합니다.
+E:\학교 과제\2025 한국공대 2학년\윈도우프로그래밍\WP_Test\WP_Test\Ex2-11.cpp(153,135): warning C4244: '초기화 중': 'double'에서 'LONG'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+E:\학교 과제\2025 한국공대 2학년\윈도우프로그래밍\WP_Test\WP_Test\Ex2-11.cpp(189,146): warning C4838: 'double'에서 'LONG'(으)로의 변환에는 축소 변환이 필요합니다.
+E:\학교 과제\2025 한국공대 2학년\윈도우프로그래밍\WP_Test\WP_Test\Ex2-11.cpp(189,146): warning C4244: '초기화 중': 'double'에서 'LONG'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+E:\학교 과제\2025 한국공대 2학년\윈도우프로그래밍\WP_Test\WP_Test\Ex2-11.cpp(189,183): warning C4838: 'double'에서 'LONG'(으)로의 변환에는 축소 변환이 필요합니다.
+E:\학교 과제\2025 한국공대 2학년\윈도우프로그래밍\WP_Test\WP_Test\Ex2-11.cpp(189,183): warning C4244: '초기화 중': 'double'에서 'LONG'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+E:\학교 과제\2025 한국공대 2학년\윈도우프로그래밍\WP_Test\WP_Test\Ex2-11.cpp(189,256): warning C4838: 'double'에서 'LONG'(으)로의 변환에는 축소 변환이 필요합니다.
+E:\학교 과제\2025 한국공대 2학년\윈도우프로그래밍\WP_Test\WP_Test\Ex2-11.cpp(189,256): warning C4244: '초기화 중': 'double'에서 'LONG'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+E:\학교 과제\2025 한국공대 2학년\윈도우프로그래밍\WP_Test\WP_Test\Ex2-11.cpp(195,154): warning C4244: '인수': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+E:\학교 과제\2025 한국공대 2학년\윈도우프로그래밍\WP_Test\WP_Test\Ex2-11.cpp(195,119): warning C4244: '인수': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+E:\학교 과제\2025 한국공대 2학년\윈도우프로그래밍\WP_Test\WP_Test\Ex2-11.cpp(251,43): warning C4838: 'double'에서 'LONG'(으)로의 변환에는 축소 변환이 필요합니다.
+E:\학교 과제\2025 한국공대 2학년\윈도우프로그래밍\WP_Test\WP_Test\Ex2-11.cpp(251,43): warning C4244: '초기화 중': 'double'에서 'LONG'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+E:\학교 과제\2025 한국공대 2학년\윈도우프로그래밍\WP_Test\WP_Test\Ex2-11.cpp(252,58): warning C4838: 'double'에서 'LONG'(으)로의 변환에는 축소 변환이 필요합니다.
+E:\학교 과제\2025 한국공대 2학년\윈도우프로그래밍\WP_Test\WP_Test\Ex2-11.cpp(252,58): warning C4244: '초기화 중': 'double'에서 'LONG'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+E:\학교 과제\2025 한국공대 2학년\윈도우프로그래밍\WP_Test\WP_Test\Ex2-11.cpp(255,57): warning C4838: 'double'에서 'LONG'(으)로의 변환에는 축소 변환이 필요합니다.
+E:\학교 과제\2025 한국공대 2학년\윈도우프로그래밍\WP_Test\WP_Test\Ex2-11.cpp(255,57): warning C4244: '초기화 중': 'double'에서 'LONG'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+E:\학교 과제\2025 한국공대 2학년\윈도우프로그래밍\WP_Test\WP_Test\Ex2-11.cpp(268,52): warning C4244: '인수': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+E:\학교 과제\2025 한국공대 2학년\윈도우프로그래밍\WP_Test\WP_Test\Ex2-11.cpp(267,42): warning C4244: '인수': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  WP_Test.vcxproj -> E:\학교 과제\2025 한국공대 2학년\윈도우프로그래밍\WP_Test\x64\Debug\WP_Test.exe

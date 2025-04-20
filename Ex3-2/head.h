@@ -21,8 +21,11 @@ void Coordinate_Shift(Circle& c, int dx, int dy, Cell board[ROW][COLUMN]);
 void Crash_Check(std::vector<Circle>& shapes, const Circle& cir, int index, Cell board[ROW][COLUMN], int& main_circles_num);
 int FindIndexByOrder(const std::vector<Circle>& shapes, int target_order);
 //void Change_Direction(std::vector<Circle>& shapes, int ddrt, int ddrt_x, int ddrt_y);
+void T_Down(std::vector<Circle>& shapes, const int& main_circles_num);
+void Circle_Jump(const std::vector<Circle>& shapes, Cell board[ROW][COLUMN], int& jump_count, bool& jump_flag, const int& main_circles_num);
 
 void Circle_Move(std::vector<Circle>& shapes, Cell board[ROW][COLUMN], int& main_circles_num) {
+
 	for (int i{}; i < shapes.size(); i++) {
 		Circle& s = shapes[i];
 		
@@ -234,7 +237,8 @@ inline void Crash_Check(std::vector<Circle>& shapes, const Circle& cir, int inde
 		if (cir.x >= 0 && cir.x < COLUMN && cir.y >= 0 && cir.y < ROW) {
 			if (board[cir.y][cir.x].type == 2) { //먹이랑 충돌
 				board[cir.y][cir.x].type = 0;
-				int d{ direction(gen) };
+				
+				int d={ direction(gen) };
 				int s{ size(gen) };
 				shapes.emplace_back(cir.x, cir.y, d, s, 0, board[cir.y][cir.x].color);
 			}
@@ -243,15 +247,16 @@ inline void Crash_Check(std::vector<Circle>& shapes, const Circle& cir, int inde
 	else if(cir.order==0){ //일반원끼리 부딪힐때
 		for (int i{ 1 }; i < shapes.size(); i++) {
 			Circle& c = shapes[i];
-			if (c.order > 0 or index==i) continue;
+			if (c.order != 0 or index==i) continue;
 
 			if (c.x == cir.x and c.y == cir.y) {
 
 				int color_temp{ c.color };
 				c = cir;
 				c.color = color_temp;
+				c.order = -1;
 
-				switch (cir.direction) { //그룹을 만들어야할지도
+				switch (cir.direction) { //그룹을 만들어야할지도 ?????? 
 				case 1:
 					c.x -= cir.direction_x;
 					if (c.x < 0 || c.x > COLUMN - 1) {
@@ -285,18 +290,12 @@ inline void Crash_Check(std::vector<Circle>& shapes, const Circle& cir, int inde
 						c.y -= cir.direction_y;
 						c.direction_x *= -1;
 					}
-					else {
-						c.y = cir.y;
-					}
 
 					c.y -= cir.direction_y;
 					if (c.y < 0 || c.y > ROW - 1) {
 						c.y += cir.direction_y;
 						c.x -= cir.direction_x;
 						c.direction_y *= -1;
-					}
-					else {
-						c.x = cir.x;
 					}
 					break;
 				}
@@ -315,6 +314,58 @@ inline int FindIndexByOrder(const std::vector<Circle>& shapes, int target_order)
 		return std::distance(shapes.begin(), it);
 	else
 		return -1;
+}
+
+inline void T_Down(std::vector<Circle>& shapes, const int& main_circles_num)
+{
+	for (int i{}; i < shapes.size(); i++) {
+		Circle& c = shapes[i];
+		if (c.order > 0) {
+			if (c.order == 1) {
+				c.order = main_circles_num;
+				continue;
+			}
+			c.order--;
+		}
+	}
+}
+
+inline void Circle_Jump(const std::vector<Circle>& shapes, Cell board[ROW][COLUMN], int& jump_count, bool& jump_flag, const int& main_circles_num)
+{
+	static int j_x[3]{}, j_y[3]{};
+	if (not jump_flag) {
+		jump_flag = true;
+
+		int idx = FindIndexByOrder(shapes, 2);
+
+		j_y[0] = shapes[idx].x;
+		j_y[0] = shapes[idx].y;
+
+		j_x[1] = shapes[0].x;
+		j_y[1] = shapes[0].y;
+
+		if(shapes[0].direction==1){
+			j_x[2] = shapes[0].x + shapes[0].direction ;
+			j_y[2] = shapes[0].y;
+		}
+		else {
+			j_x[2] = shapes[0].x;
+			j_y[2] = shapes[0].y + shapes[0].direction;
+		}
+
+		board[j_y[0]][j_x[0]].type = 7;
+		board[j_y[1]][j_x[1]].type = 7;
+		board[j_y[2]][j_x[2]].type = 7;
+	}
+	else {
+		jump_count--;
+		if (jump_count == 0) {
+			board[j_y[0]][j_x[0]].type = 0;
+			board[j_y[1]][j_x[1]].type = 0;
+			board[j_y[2]][j_x[2]].type = 0;
+			jump_flag = false;
+		}
+	}
 }
 
 //inline void Change_Direction(std::vector<Circle>& shapes, int ddrt, int ddrt_x, int ddrt_y) //오 모르겟다...

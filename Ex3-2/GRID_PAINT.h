@@ -32,11 +32,11 @@ void GRID_PAINT(HDC& hdc, RECT& full_rect, Cell board[ROW][COLUMN], std::vector<
                 InflateRect(&rect, -5, -5);
 
                 HBRUSH hBrush = CreateSolidBrush(color[board[i][j].color]);
-                HBRUSH oldBrush = (HBRUSH)SelectObject(hdc, hBrush);
+                //HBRUSH oldBrush = (HBRUSH)SelectObject(hdc, hBrush);
+                //Circle_Paint(hdc, rect);
+                //SelectObject(hdc, oldBrush);
 
-                Circle_Paint(hdc, rect);
-
-                SelectObject(hdc, oldBrush);
+                FillRect(hdc, &rect, hBrush);
                 DeleteObject(hBrush);
                 break;
             }
@@ -59,11 +59,21 @@ void GRID_PAINT(HDC& hdc, RECT& full_rect, Cell board[ROW][COLUMN], std::vector<
     //ฟ๘ต้
     for (int i{}; i < shapes.size(); i++) {
         Circle& s = shapes[i];
-
         RECT rect{ full_rect.left, full_rect.top, full_rect.left + rect_width, full_rect.top + rect_height };
-        OffsetRect(&rect, rect_width * s.x, rect_height * s.y);
+        
+        if (board[s.y][s.x].type == 7) {
+            if(s.direction==1){
+                OffsetRect(&rect, rect_width * s.x, rect_height * (s.y - s.direction * 2));
+            }
+            else {
+                OffsetRect(&rect, rect_width * (s.x - s.direction * 2), rect_height * s.y);
+            }
+        }
+        else {
+            OffsetRect(&rect, rect_width * s.x, rect_height * s.y);
+        }
         if(s.order>0)
-            InflateRect(&rect, (s.order * -1), (s.order * -1));
+            InflateRect(&rect, (s.order * -0.5), (s.order * -0.5));
         else
             InflateRect(&rect, s.size - 2, s.size - 2);
 
