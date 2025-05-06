@@ -15,7 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Ex3-5.cpp">
+    <ClCompile Include="Ex4-3.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
@@ -26,8 +26,16 @@
     <ClInclude Include="GRID_PAINT.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Car.h">
+    <ClInclude Include="Cell.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Ex4-3.rc">
+      <Filter>리소스 파일</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>

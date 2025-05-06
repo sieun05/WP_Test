@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{c0b3d71a-be8a-4bcf-bb72-ca6ae98db502}</ProjectGuid>
-    <RootNamespace>Ex35</RootNamespace>
+    <ProjectGuid>{3d91ce7c-a3cd-48f2-95b0-c4dc0bae91a0}</ProjectGuid>
+    <RootNamespace>Ex43</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -127,12 +127,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Ex3-5.cpp" />
+    <ClCompile Include="Ex4-3.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Car.h" />
+    <ClInclude Include="Cell.h" />
     <ClInclude Include="GRID_PAINT.h" />
     <ClInclude Include="head.h" />
+    <ClInclude Include="resource.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Ex4-3.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
