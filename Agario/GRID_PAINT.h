@@ -2,11 +2,16 @@
 #include <Windows.h>
 #include "resource.h"
 #include "Cell.h"
+#include "Feed.h"
+#include "Virus.h"
 
 #define ROW 18
 #define COL 32
 
-void GRID_PAINT(HDC& hdc, const RECT& f_rect, std::vector<Cell>& cell) {
+void GRID_PAINT(HDC& hdc, const RECT& f_rect, std::vector<Cell>& cell,
+    std::vector<Feed>& feed, const int& screen) {
+    COLORREF f_RGB[6]{RGB(243, 139, 46), RGB(65, 216, 133), RGB(221, 60, 64), RGB(164, 49, 232), RGB(13, 51, 206), RGB(53, 240, 213)};
+
     HBRUSH hbrush{}, oldbrush{};
     HPEN hpen{}, oldpen{};
 
@@ -46,6 +51,26 @@ void GRID_PAINT(HDC& hdc, const RECT& f_rect, std::vector<Cell>& cell) {
         SelectObject(hdc, oldbrush);
         DeleteObject(hbrush);
     }
+
+    //∏‘¿Ã
+    for (int i{}; i < feed.size(); i++) {
+        Feed& f = feed.at(i);
+
+        int size = f.size / 2;
+        RECT rect{ f.x - size, f.y - size, f.x + size, f.y + size };
+
+        hbrush = CreateSolidBrush(f_RGB[f.color]);
+        oldbrush = (HBRUSH)SelectObject(hdc, hbrush);
+        oldpen = (HPEN)SelectObject(hdc, GetStockObject(NULL_PEN));
+
+        Ellipse(hdc, rect.left, rect.top, rect.right, rect.bottom);
+
+        SelectObject(hdc, oldbrush);
+        SelectObject(hdc, oldpen);
+        DeleteObject(hbrush);
+    }
+
+    if (screen == 0) return;
 
     //ºº∆˜
     for (int i{}; i < cell.size(); i++) {
