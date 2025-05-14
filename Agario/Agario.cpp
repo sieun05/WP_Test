@@ -115,6 +115,13 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 
 			feed.emplace_back(fx, fy, color, size);
 		}
+
+		int vx{ r_width(gen) };
+		int vy{ r_height(gen) };
+		int vclr{ r_color(gen) };
+		
+		virus.emplace_back(vx, vy, vclr, false, 0);
+
 		break;
 	}
 	case WM_TIMER:
@@ -156,6 +163,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 				Cell_Move(cell, mx, my, clientRect, camera_mode);
 				Feed_Crash(cell, feed, feed_cnt);
 				Feed_Crash(virus, feed);
+				Virus_Move(virus, clientRect, cell, feed);
 
 				feed_delay++;
 				if (feed_delay > 10 and feed.size() < max_feed) {
@@ -212,7 +220,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 			FillRect(mdc, &clientRect, hbrush);
 			DeleteObject(hbrush);
 
-			GRID_PAINT(mdc, clientRect, cell, feed, screen);
+			GRID_PAINT(mdc, clientRect, cell, feed, virus, screen);
 
 			HFONT hfont = CreateFont(
 				-40,
@@ -251,7 +259,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 			FillRect(mdc, &clientRect, hbrush);
 			DeleteObject(hbrush);
 
-			GRID_PAINT(mdc, clientRect, cell, feed, screen);
+			GRID_PAINT(mdc, clientRect, cell, feed, virus, screen);
 
 			if (camera_mode == 1)
 				BitBlt(hdc, 0, 0, clientRect.right, clientRect.bottom, mdc, 0, 0, SRCCOPY);
@@ -288,7 +296,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 				//StretchBlt(hdc, 0, 0, clientRect.right, clientRect.bottom, mdc, cell.at(0).x - width/2, cell.at(0).y - height/2, width, height, SRCCOPY);
 			}
 
-			wsprintf(txt, TEXT("mouse: %d %d | cell: %d %d"), mx, my, cell.at(0).x, cell.at(0).y);
+			wsprintf(txt, TEXT("virus: %d %d | cell: %d %d"), virus.at(0).x, virus.at(0).y, cell.at(0).x, cell.at(0).y);
 			TextOut(hdc, clientRect.right - 300, 10, txt, lstrlen(txt));
 
 			if (display_flag) {
@@ -308,7 +316,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 			FillRect(mdc, &clientRect, hbrush);
 			DeleteObject(hbrush);
 
-			GRID_PAINT(mdc, clientRect, cell, feed, screen);
+			GRID_PAINT(mdc, clientRect, cell, feed, virus, screen);
 
 			HFONT hfont = CreateFont(
 				-25,

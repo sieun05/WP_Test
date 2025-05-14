@@ -5,6 +5,7 @@
 #include <random>
 #include <math.h>
 #include <cstdlib>
+#include <algorithm>
 #include "resource.h"
 #include "Cell.h"
 #include "GRID_PAINT.h"
@@ -27,7 +28,7 @@ uniform_int_distribution<> r_virus_direct(0, 20);
 void Cell_Move(std::vector<Cell>& cell, int mx, int my, const RECT& clientRect, const int& camera_mode);
 void Feed_Crash(std::vector<Cell>& cell, std::vector<Feed>& feed, int& feed_cnt);
 void Feed_Crash(std::vector<Virus>& virus, std::vector<Feed>& feed);
-void Virus_Move(std::vector<Virus>& virus, const RECT& f_rect, const std::vector<Cell>& cell);
+void Virus_Move(std::vector<Virus>& virus, const RECT& f_rect, const std::vector<Cell>& cell, std::vector<Feed>& feed);
 
 void Cell_Move(std::vector<Cell>& cell, int mx, int my, const RECT& clientRect, const int& camera_mode) {
 
@@ -57,8 +58,7 @@ void Cell_Move(std::vector<Cell>& cell, int mx, int my, const RECT& clientRect, 
 		float nx = dx / length;
 		float ny = dy / length;
 
-		//int newx, newy;
-
+		//int newx, newy
 		float newx = c.x + nx * c.speed;
 		float newy = c.y + ny * c.speed;
 
@@ -67,15 +67,16 @@ void Cell_Move(std::vector<Cell>& cell, int mx, int my, const RECT& clientRect, 
 
 		if (c_rect.left < 0) newx = size;
 		if (c_rect.top < 0) newy = size;
-		if (c_rect.right > MAP_WIDTH) newx -=  size;
-		if (c_rect.bottom > MAP_HEIGHT)  newy -= size;
+		if (c_rect.right > MAP_WIDTH) newx -=  c.speed;
+		if (c_rect.bottom > MAP_HEIGHT)  newy -= c.speed;
+
+		if (newx < 0 or newy < 0) return;
 
 		c.x = newx;
 		c.y = newy;
 
 		//경계 밖으로 나가면 세포의 좌표가 음수가 되어서 size, size로 좌표가 튐
 		//경계 밖으로 나가지 않도록 하기
-
 	}
 }
 
@@ -140,7 +141,7 @@ inline void Feed_Crash(std::vector<Virus>& virus, std::vector<Feed>& feed)
 	}
 }
 
-inline void Virus_Move(std::vector<Virus>& virus, const RECT& f_rect, const std::vector<Cell>& cell)
+inline void Virus_Move(std::vector<Virus>& virus, const RECT& f_rect, const std::vector<Cell>& cell, std::vector<Feed>& feed)
 {
 	for (int i{}; i < virus.size(); i++) {
 		bool near_flag{};
@@ -156,21 +157,79 @@ inline void Virus_Move(std::vector<Virus>& virus, const RECT& f_rect, const std:
 			near_flag = true;
 		}
 
-		//if (near_flag) {
-		//	int 
+		if (near_flag) {
+			float dirX = (float)dx / (float)length;
+			float dirY = (float)dy / (float)length;
 
-		//		//주인공세포 - 바이러스 위치에 따라 바이러스가 주인공세포쪽으로 가도록 작성
-		//}
-		//else {
-	/*		bool r_direct_x{ r_virus_direct(gen) == 20 };
-			bool r_direct_y{ r_virus_direct(gen) == 20 };
+			v.x += (int)(dirX * v.speed);
+			v.y += (int)(dirY * v.speed);
 
-			r_direct_x ? v.direction_x *= -1 : v.direction_x;
-			r_direct_y ? v.direction_y *= -1 : v.direction_y;*/
+			if (v.x - v.size < 0) v.x = v.size;
+			else if (v.x + v.size > MAP_WIDTH) v.x = MAP_WIDTH - v.size;
 
-			
+			if (v.y - v.size < 0) v.y = v.size;
+			else if (v.y + v.size > MAP_HEIGHT) v.y = MAP_HEIGHT - v.size;
 
-			//위치 이동, 경계에서 튕기기
-		//}
+			//주인공세포 - 바이러스 위치에 따라 바이러스가 주인공세포쪽으로 가도록 작성
+		}
+		else {
+
+			for (int j{}; j < feed.size(); j++) {
+				Feed& f = feed.at(j);
+
+				int fdx{ v.x - f.x };
+				int fdy{ v.y - f.y };
+				double flength{ sqrt(fdx * fdx + fdy * fdy) };
+
+				if (length < 300) {
+
+					float dirX = (float)fdx / (float)length;
+					float dirY = (float)fdy / (float)length;
+
+					v.x += (int)(dirX * v.speed);
+					v.y += (int)(dirY * v.speed);
+
+					if (v.x - v.size < 0) v.x = v.size;
+					else if (v.x + v.size > MAP_WIDTH) v.x = MAP_WIDTH - v.size;
+
+					if (v.y - v.size < 0) v.y = v.size;
+					else if (v.y + v.size > MAP_HEIGHT) v.y = MAP_HEIGHT - v.size;
+
+					near_flag = true;
+				}
+			}
+
+			if (not near_flag) {
+
+				v.tick++;
+
+				if (v.tick % 100 == 0) {
+					v.angle = Virus::RandomAngle();
+				}
+
+				v.x += (int)(cosf(v.angle) * v.speed);
+				v.y += (int)(sinf(v.angle) * v.speed);
+
+				if (v.x - v.size < 0 or v.x + v.size > MAP_WIDTH) {
+					v.angle = 3.14156265f - v.angle;
+					if (v.x - v.size < 0) {
+						v.x = v.size;
+					}
+					else if (v.x + v.size > MAP_WIDTH) {
+						v.x = MAP_WIDTH - v.size;
+					}
+				}
+
+				if (v.y - v.size < 0 or v.y + v.size > MAP_HEIGHT) {
+					v.angle = -v.angle;
+					if (v.y - v.size < 0) {
+						v.y = v.size;
+					}
+					else if (v.y + v.size > MAP_HEIGHT) {
+						v.y = MAP_HEIGHT - v.size;
+					}
+				}
+			}
+		}
 	}
 }

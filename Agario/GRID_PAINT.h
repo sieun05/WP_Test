@@ -9,8 +9,9 @@
 #define COL 32
 
 void GRID_PAINT(HDC& hdc, const RECT& f_rect, std::vector<Cell>& cell,
-    std::vector<Feed>& feed, const int& screen) {
+    std::vector<Feed>& feed, std::vector<Virus>& virus, const int& screen) {
     COLORREF f_RGB[6]{RGB(243, 139, 46), RGB(65, 216, 133), RGB(221, 60, 64), RGB(164, 49, 232), RGB(13, 51, 206), RGB(53, 240, 213)};
+
 
     HBRUSH hbrush{}, oldbrush{};
     HPEN hpen{}, oldpen{};
@@ -71,6 +72,26 @@ void GRID_PAINT(HDC& hdc, const RECT& f_rect, std::vector<Cell>& cell,
     }
 
     if (screen == 0) return;
+
+    //바이러스
+    for (int i{}; i < virus.size(); i++) {
+        Virus& v = virus.at(i);
+
+        float size{ (float)v.size / 2 };
+        RECT rect{ v.x - size, v.y - size, v.x + size, v.y + size };
+
+        hbrush = CreateSolidBrush(RGB(255, 0, 0));
+        hpen = CreatePen(PS_SOLID, 2, RGB(170, 50, 50));
+        oldbrush = (HBRUSH)SelectObject(hdc, hbrush);
+        oldpen = (HPEN)SelectObject(hdc, hpen);
+
+        Ellipse(hdc, rect.left, rect.top, rect.right, rect.bottom);
+
+        SelectObject(hdc, oldbrush);
+        SelectObject(hdc, oldpen);
+        DeleteObject(hbrush);
+        DeleteObject(hpen);
+    }
 
     //세포
     for (int i{}; i < cell.size(); i++) {
