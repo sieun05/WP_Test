@@ -134,6 +134,7 @@
     <ClInclude Include="Feed.h" />
     <ClInclude Include="GRID_PAINT.h" />
     <ClInclude Include="head.h" />
+    <ClInclude Include="Item.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Virus.h" />
   </ItemGroup>

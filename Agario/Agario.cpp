@@ -39,7 +39,7 @@ int  WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, 
 		0,
 		0,
 		1280 + marginX,
-		720 + marginY,
+		720 /*marginY*/,
 		NULL,
 		(HMENU)NULL,
 		hInstance,
@@ -84,6 +84,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 
 	static vector<Virus> virus;
 	static int virus_delay{};
+	static int virus_cnt{};
+
+	static Item item{};
+	static bool item_flag{};
 
 	static int mx, my;
 
@@ -102,11 +106,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 		centerX = (clientRect.left + clientRect.right) / 2;
 		centerY = (clientRect.top + clientRect.bottom) / 2;
 
-		int cell_size{ 10 };
-		int cell_x{ centerX };
-		int cell_y{ centerY };
-		cell.emplace_back(cell_x, cell_y, cell_size, (float)80 / cell_size);
-
 		for (int i{}; i < 10; i++) {
 			int fx{ r_width(gen) };
 			int fy{ r_height(gen) };
@@ -115,12 +114,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 
 			feed.emplace_back(fx, fy, color, size);
 		}
-
-		int vx{ r_width(gen) };
-		int vy{ r_height(gen) };
-		int vclr{ r_color(gen) };
-		
-		virus.emplace_back(vx, vy, vclr, false, 0);
 
 		break;
 	}
@@ -137,7 +130,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 				int cell_size{ 20 };
 				int cell_x{ centerX };
 				int cell_y{ centerY };
-				cell.emplace_back(cell_x, cell_y, cell_size, (float)60 / cell_size);
+				cell.emplace_back(cell_x, cell_y, cell_size, (float)100 / cell_size);
 
 				feed.clear();
 				for (int i{}; i < 10; i++) {
@@ -157,6 +150,19 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 
 				play_second = 0;
 				play_minute = 0;
+
+				virus.clear();
+
+				int vx{ r_width(gen) };
+				int vy{ r_height(gen) };
+				int vclr{ r_color(gen) };
+				virus.emplace_back(vx, vy, vclr);
+				virus_cnt++;
+
+				int r_itemx{ r_width(gen) };
+				int r_itemy{ r_height(gen) };
+				item = {r_itemx, r_itemy};
+				Item_flag={ false };
 			}
 
 			if (not pause_flag and not game_end_flag) {
@@ -164,6 +170,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 				Feed_Crash(cell, feed, feed_cnt);
 				Feed_Crash(virus, feed);
 				Virus_Move(virus, clientRect, cell, feed);
+				Virus_Crash(cell, virus, game_end_flag);
+				Item_Move(item);
 
 				feed_delay++;
 				if (feed_delay > 10 and feed.size() < max_feed) {
@@ -180,7 +188,35 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 						feed.emplace_back(fx, fy, color, size);
 					}
 				}
+
+				virus_delay++;
+				if (virus_delay > 80 * 20 and virus_cnt < 3) {
+					int vx{ r_width(gen) };
+					int vy{ r_height(gen) };
+					int vclr{ r_color(gen) };
+
+					virus.emplace_back(vx, vy, vclr);
+
+					virus_cnt++;
+				}
 			}
+
+			if (screen==1 and game_end_flag) {
+				for (int i{1}; i < cell.size(); i++) {
+					cell.at(0).size += cell.at(i).size * 0.7;
+				}
+				screen = 2;
+			}
+
+			if (not item.posible) {
+				item.delay++;
+
+				if (item.delay > 80 * 10) {
+					item.posible = true;
+				}
+			}
+
+
 			break;
 		}
 		case 2:
@@ -195,6 +231,48 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 			break;
 		}
 		}
+		InvalidateRect(hWnd, NULL, FALSE);
+		break;
+	}
+	case WM_LBUTTONDOWN:
+	{
+		mx = { LOWORD(lParam) };
+		my = { HIWORD(lParam) };
+
+		if (cell.at(0).size > 60) {
+
+			int dx{ mx - cell.at(0).x };
+			int dy{ my - cell.at(0).y };
+			double length{ sqrt(dx * dx + dy * dy) };
+
+			float nx = dx / length;
+			float ny = dy / length;
+
+			cell.at(0).size /= 2;
+			cell.emplace_back(cell.at(0).x + nx * cell.at(0).size*2, cell.at(0).y + ny * cell.at(0).size*2, cell.at(0).size, cell.at(0).speed, true);
+		}
+
+		InvalidateRect(hWnd, NULL, FALSE);
+		break;
+	}
+	case WM_RBUTTONDOWN:
+	{
+		mx = { LOWORD(lParam) };
+		my = { HIWORD(lParam) };
+		
+		if(cell.at(0).size > 20){
+
+			int dx{ mx - cell.at(0).x };
+			int dy{ my - cell.at(0).y };
+			double length{ sqrt(dx * dx + dy * dy) };
+
+			float nx = dx / length;
+			float ny = dy / length;
+
+			cell.at(0).size--;
+			feed.emplace_back(cell.at(0).x + nx * cell.at(0).size, cell.at(0).y + ny * cell.at(0).size, 6, 25);
+		}
+
 		InvalidateRect(hWnd, NULL, FALSE);
 		break;
 	}
@@ -296,15 +374,19 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 				//StretchBlt(hdc, 0, 0, clientRect.right, clientRect.bottom, mdc, cell.at(0).x - width/2, cell.at(0).y - height/2, width, height, SRCCOPY);
 			}
 
-			wsprintf(txt, TEXT("virus: %d %d | cell: %d %d"), virus.at(0).x, virus.at(0).y, cell.at(0).x, cell.at(0).y);
+			wsprintf(txt, TEXT("cell size: %d | cell: %d %d"), cell.size(), cell.at(0).x, cell.at(0).y);
 			TextOut(hdc, clientRect.right - 300, 10, txt, lstrlen(txt));
+			if (virus.size() == 2) {
+				wsprintf(txt, TEXT("virus: %d %d | virus2: %d %d"), virus.at(0).x, virus.at(0).y, virus.at(1).x, virus.at(1).y);
+				TextOut(hdc, clientRect.right - 300, 10, txt, lstrlen(txt));
+			}
 
 			if (display_flag) {
 				SetBkMode(hdc, TRANSPARENT);
 
 				wsprintf(txt, TEXT("먹은 먹이 수: %d"), feed_cnt);
 				TextOut(hdc, clientRect.right - 300, 30, txt, lstrlen(txt));
-				wsprintf(txt, TEXT("세포의 크기(반지름): %d"), cell.at(0).size / 2);
+				wsprintf(txt, TEXT("세포의 크기(반지름): %d"), (int)cell.at(0).size / 2);
 				TextOut(hdc, clientRect.right - 300, 60, txt, lstrlen(txt));
 				wsprintf(txt, TEXT("플레이 시간: %d분 %d초"), play_minute, play_second);
 				TextOut(hdc, clientRect.right - 300, 90, txt, lstrlen(txt));
@@ -343,7 +425,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 			GetTextExtentPoint32(mdc, txt, lstrlen(txt), &txtsize);
 			TextOut(mdc, centerX - txtsize.cx/2, 160, txt, lstrlen(txt));
 
-			wsprintf(txt, TEXT("세포의 크기(반지름): %d"), cell.at(0).size / 2);
+			wsprintf(txt, TEXT("세포의 크기(반지름): %d"), (int)cell.at(0).size / 2);
 			GetTextExtentPoint32(mdc, txt, lstrlen(txt), &txtsize);
 			TextOut(mdc, centerX - txtsize.cx / 2, 200, txt, lstrlen(txt));
 

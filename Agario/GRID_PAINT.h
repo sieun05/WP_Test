@@ -4,14 +4,15 @@
 #include "Cell.h"
 #include "Feed.h"
 #include "Virus.h"
+#include "Item.h"
+#include "Item.h"
 
 #define ROW 18
 #define COL 32
 
 void GRID_PAINT(HDC& hdc, const RECT& f_rect, std::vector<Cell>& cell,
-    std::vector<Feed>& feed, std::vector<Virus>& virus, const int& screen) {
-    COLORREF f_RGB[6]{RGB(243, 139, 46), RGB(65, 216, 133), RGB(221, 60, 64), RGB(164, 49, 232), RGB(13, 51, 206), RGB(53, 240, 213)};
-
+    std::vector<Feed>& feed, std::vector<Virus>& virus, Item& i, bool& item_flag, const int& screen) {
+    COLORREF f_RGB[7]{RGB(243, 139, 46), RGB(65, 216, 133), RGB(221, 60, 64), RGB(164, 49, 232), RGB(13, 51, 206), RGB(53, 240, 213), RGB(248, 213, 73) };
 
     HBRUSH hbrush{}, oldbrush{};
     HPEN hpen{}, oldpen{};
@@ -92,6 +93,8 @@ void GRID_PAINT(HDC& hdc, const RECT& f_rect, std::vector<Cell>& cell,
         DeleteObject(hbrush);
         DeleteObject(hpen);
     }
+
+    if (screen == 2) return;
 
     //¼¼Æ÷
     for (int i{}; i < cell.size(); i++) {
