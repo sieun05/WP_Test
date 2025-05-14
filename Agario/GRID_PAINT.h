@@ -76,7 +76,7 @@ void GRID_PAINT(HDC& hdc, const RECT& f_rect, std::vector<Cell>& cell,
     for (int i{}; i < cell.size(); i++) {
         Cell& c = cell.at(i);
 
-        int ssize{ c.size / 2 };
+        float ssize{ c.size / 2 };
         RECT rect{ c.x - ssize, c.y - ssize, c.x + ssize, c.y + ssize };
 
         hbrush = CreateSolidBrush(RGB(248, 213, 73));

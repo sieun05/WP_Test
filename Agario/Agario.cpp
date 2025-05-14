@@ -102,10 +102,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 		centerX = (clientRect.left + clientRect.right) / 2;
 		centerY = (clientRect.top + clientRect.bottom) / 2;
 
-		int cell_size{ 20 };
+		int cell_size{ 10 };
 		int cell_x{ centerX };
 		int cell_y{ centerY };
-		cell.emplace_back(cell_x, cell_y, cell_size, (float)60 / cell_size);
+		cell.emplace_back(cell_x, cell_y, cell_size, (float)80 / cell_size);
 
 		for (int i{}; i < 10; i++) {
 			int fx{ r_width(gen) };
@@ -265,6 +265,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 				int map_width = (double)(clientRect.right * zoom_factor);
 				int map_height = (double)(clientRect.bottom * zoom_factor);
 
+				if (map_width > MAP_WIDTH) map_width = MAP_WIDTH;
+				if (map_height > MAP_HEIGHT) map_height = MAP_HEIGHT;
+
 				// 중심 세포 좌표 기준으로 영역 계산
 				int src_left = cell.at(0).x - map_width / 2;
 				int src_top = cell.at(0).y - map_height / 2;
@@ -274,6 +277,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 				if (src_top < 0) src_top = 0;
 				if (src_left + map_width > MAP_WIDTH) src_left = MAP_WIDTH - map_width;
 				if (src_top + map_height > MAP_HEIGHT) src_top = MAP_HEIGHT - map_height;
+
+				if (src_left < 0) src_left = 0;
+				if (src_top < 0) src_top = 0;
 
 				// 출력
 				StretchBlt(hdc, 0, 0, clientRect.right, clientRect.bottom,

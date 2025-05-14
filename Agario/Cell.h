@@ -16,9 +16,9 @@
 struct Cell {
 	int x, y;
 	float fx, fy; // 정밀 이동용
-	int size;
+	float size;
 	float speed;
 
-	Cell(int x, int y, int size, float speed)
+	Cell(int x, int y, float size, float speed)
 		: x{ x }, y{ y }, fx{ (float)x }, fy{ (float)y }, size{ size }, speed{ speed } {}
 };

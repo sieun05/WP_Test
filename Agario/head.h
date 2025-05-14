@@ -62,16 +62,20 @@ void Cell_Move(std::vector<Cell>& cell, int mx, int my, const RECT& clientRect, 
 		float newx = c.x + nx * c.speed;
 		float newy = c.y + ny * c.speed;
 
-		int size{ c.size / 2 };
+		float size{ c.size / 2 };
 		RECT c_rect{ newx - size, newy - size, newx + size, newy + size };
 
 		if (c_rect.left < 0) newx = size;
 		if (c_rect.top < 0) newy = size;
-		if (c_rect.right > MAP_WIDTH) newx = MAP_WIDTH - size;
-		if (c_rect.bottom > MAP_HEIGHT)  newy = MAP_HEIGHT - size;
+		if (c_rect.right > MAP_WIDTH) newx -=  size;
+		if (c_rect.bottom > MAP_HEIGHT)  newy -= size;
 
 		c.x = newx;
 		c.y = newy;
+
+		//경계 밖으로 나가면 세포의 좌표가 음수가 되어서 size, size로 좌표가 튐
+		//경계 밖으로 나가지 않도록 하기
+
 	}
 }
 
@@ -93,16 +97,17 @@ inline void Feed_Crash(std::vector<Cell>& cell, std::vector<Feed>& feed, int& fe
 			if (abs(c.x - f.x) > c.size or abs(c.y - f.y) > c.size + 10) //세포와 가깝지 않으면 연산x
 				continue;
 
-			int radius{ c.size / 2 };
+			float radius{ c.size / 2 };
 			int dx{ c.x - f.x };
 			int dy{ c.y - f.y };
 			int length{ (int)sqrt(dx * dx + dy * dy) };
 
 			if (length < radius) { //세포 - 먹이 충돌시
-				c.size += f.size / 10;
+				c.size += (float)f.size / 15;
 				feed_cnt++;
 				feed.erase(feed.begin() + j);
-				c.speed = (float)60 / c.size;
+				c.speed = (float)80 / c.size;
+				if (c.speed < 3) c.speed = 3;
 				j--;
 			}
 		}
@@ -145,25 +150,27 @@ inline void Virus_Move(std::vector<Virus>& virus, const RECT& f_rect, const std:
 
 		int dx{ c.x - v.x };
 		int dy{ c.y - v.y };
-		int length{ sqrt(dx * dx + dy * dy) };
+		double length{ sqrt(dx * dx + dy * dy) };
 
 		if (length < 250) {
 			near_flag = true;
 		}
 
-		if (near_flag) {
-			int 
+		//if (near_flag) {
+		//	int 
 
-				//주인공세포 - 바이러스 위치에 따라 바이러스가 주인공세포쪽으로 가도록 작성
-		}
-		else {
-			bool r_direct_x{ r_virus_direct(gen) == 20 };
+		//		//주인공세포 - 바이러스 위치에 따라 바이러스가 주인공세포쪽으로 가도록 작성
+		//}
+		//else {
+	/*		bool r_direct_x{ r_virus_direct(gen) == 20 };
 			bool r_direct_y{ r_virus_direct(gen) == 20 };
 
 			r_direct_x ? v.direction_x *= -1 : v.direction_x;
-			r_direct_y ? v.direction_y *= -1 : v.direction_y;
+			r_direct_y ? v.direction_y *= -1 : v.direction_y;*/
+
+			
 
 			//위치 이동, 경계에서 튕기기
-		}
+		//}
 	}
 }
